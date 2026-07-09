@@ -1,22 +1,17 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export type CartItem = {
+type CartItem = {
   id: number;
   nome: string;
   preco: number;
-  imagem: string;
   quantidade: number;
 };
 
 type CartContextType = {
   items: CartItem[];
-  total: number;
-  addItem: (item: Omit<CartItem, "quantidade">) => void;
-  removeItem: (id: number) => void;
-  increase: (id: number) => void;
-  decrease: (id: number) => void;
+  adicionar: (item: Omit<CartItem, "quantidade">) => void;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -28,77 +23,35 @@ export function CartProvider({
 }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  function addItem(item: Omit<CartItem, "quantidade">) {
-    setItems((prev) => {
-      const existe = prev.find((p) => p.id === item.id);
+  function adicionar(item: Omit<CartItem, "quantidade">) {
+    setItems((lista) => {
+      const existe = lista.find((i) => i.id === item.id);
 
       if (existe) {
-        return prev.map((p) =>
-          p.id === item.id
-            ? { ...p, quantidade: p.quantidade + 1 }
-            : p
+        return lista.map((i) =>
+          i.id === item.id
+            ? { ...i, quantidade: i.quantidade + 1 }
+            : i
         );
       }
 
-      return [...prev, { ...item, quantidade: 1 }];
+      return [...lista, { ...item, quantidade: 1 }];
     });
   }
 
-  function increase(id: number) {
-    setItems((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? { ...p, quantidade: p.quantidade + 1 }
-          : p
-      )
-    );
-  }
-
-  function decrease(id: number) {
-    setItems((prev) =>
-      prev
-        .map((p) =>
-          p.id === id
-            ? { ...p, quantidade: p.quantidade - 1 }
-            : p
-        )
-        .filter((p) => p.quantidade > 0)
-    );
-  }
-
-  function removeItem(id: number) {
-    setItems((prev) => prev.filter((p) => p.id !== id));
-  }
-
-  const total = useMemo(() => {
-    return items.reduce(
-      (acc, item) => acc + item.preco * item.quantidade,
-      0
-    );
-  }, [items]);
-
   return (
-    <CartContext.Provider
-      value={{
-        items,
-        total,
-        addItem,
-        removeItem,
-        increase,
-        decrease,
-      }}
-    >
+    <CartContext.Provider value={{ items, adicionar }}>
       {children}
     </CartContext.Provider>
   );
 }
 
 export function useCart() {
-  const context = useContext(CartContext);
+  const contexto = useContext(CartContext);
 
-  if (!context) {
-    throw new Error("useCart deve ser usado dentro do CartProvider");
+  if (!contexto) {
+    throw new Error("CartProvider não encontrado.");
   }
 
-  return context;
+  return contexto;
 }
