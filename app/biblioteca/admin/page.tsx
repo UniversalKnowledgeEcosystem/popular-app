@@ -1,1 +1,1 @@
-export default function BibliotecaAdminPage() { return <main>Admin Biblioteca</main>; }
+export default function BibliotecaAdmin() { return <main>Biblioteca Admin</main>; }

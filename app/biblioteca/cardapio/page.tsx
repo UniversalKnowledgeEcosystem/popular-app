@@ -1,1 +1,1 @@
-export default function BibliotecaCardapioPage() { return <main>Cardápio Biblioteca</main>; }
+export default function BibliotecaCardapio() { return <main>Biblioteca Cardapio</main>; }
