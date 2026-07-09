@@ -1,47 +1,53 @@
-import FeaturedProducts from "./components/FeaturedProducts";
-import Categories from "./components/Categories";
-import DeliveryBar from "./components/DeliveryBar";
-import BottomNavigation from "./components/BottomNavigation";
-import SearchBar from "./components/SearchBar";
 import Banner from "./components/Banner";
+import BottomNavigation from "./components/BottomNavigation";
+import Categories from "./components/Categories";
+import FeaturedProducts from "./components/FeaturedProducts";
+import LoyaltyCard from "./components/LoyaltyCard";
+import SearchBar from "./components/SearchBar";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-white pb-24">
-      <section className="px-6 pt-8 text-center">
-        <Image
-          src="/logo.png"
-          alt="Popular"
-          width={170}
-          height={170}
-          className="mx-auto rounded-full shadow-2xl"
-          priority
-        />
+    <main className="min-h-screen bg-zinc-950 text-white pb-28">
+      <header className="px-6 pt-8">
+        <div className="flex items-center gap-4">
+          <Image
+            src="/logo.png"
+            alt="Popular"
+            width={72}
+            height={72}
+            className="rounded-full shadow-xl"
+            priority
+          />
 
-        <DeliveryBar />
+          <div>
+            <p className="text-sm text-zinc-400">
+              Boa noite 👋
+            </p>
 
-        <p className="text-zinc-300 mt-3">
-          Hambúrgueria & Sorveteria
-        </p>
+            <h1 className="text-2xl font-black">
+              Popular
+            </h1>
 
-        <h1 className="text-4xl font-extrabold mt-8">
-          Bem-vindo à Popular
-        </h1>
+            <p className="text-sm text-yellow-400">
+              📍 Rio Pardo de Minas - MG
+            </p>
+          </div>
+        </div>
+      </header>
 
-        <p className="mt-3 text-zinc-400">
-          O melhor hambúrguer da cidade com vantagens exclusivas.
-        </p>
+      <SearchBar />
 
-        <SearchBar />
-      </section>
-
-      <section className="px-6 mt-8">
+      <section className="px-6 mt-6">
         <Banner />
       </section>
 
       <Categories />
+
       <FeaturedProducts />
+
+      <LoyaltyCard />
+
       <BottomNavigation />
     </main>
   );
