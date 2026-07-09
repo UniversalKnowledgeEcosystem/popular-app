@@ -1,45 +1,29 @@
-"use client";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-
-import "swiper/css";
-
 export default function Banner() {
   return (
-    <Swiper
-      modules={[Autoplay]}
-      autoplay={{ delay: 3500 }}
-      loop
-      className="rounded-3xl"
-    >
-      <SwiperSlide>
-        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-3xl p-8">
-          <p className="font-bold">🍔 COMBO DA SEMANA</p>
+    <div className="relative overflow-hidden rounded-3xl h-52 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 shadow-2xl">
 
-          <h2 className="text-4xl font-black mt-2">
-            X-Burger + Batata + Refri
-          </h2>
+      <div className="absolute inset-0 bg-black/20" />
 
-          <p className="mt-3">
-            Apenas R$ 29,90
-          </p>
-        </div>
-      </SwiperSlide>
+      <div className="relative z-10 h-full flex flex-col justify-center px-8">
 
-      <SwiperSlide>
-        <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8">
-          <p className="font-bold">🍦 SORVETES</p>
+        <span className="bg-white text-red-600 font-black px-3 py-1 rounded-full w-fit text-sm">
+          🔥 PROMOÇÃO
+        </span>
 
-          <h2 className="text-4xl font-black mt-2">
-            Casquinhas em Dobro
-          </h2>
+        <h2 className="text-4xl font-black text-white mt-4 leading-tight">
+          Big Duplo
+        </h2>
 
-          <p className="mt-3">
-            Hoje somente
-          </p>
-        </div>
-      </SwiperSlide>
-    </Swiper>
+        <p className="text-white/90 mt-2 text-lg">
+          2 carnes, queijo, bacon e molho especial.
+        </p>
+
+        <button className="mt-5 bg-white text-red-600 font-black px-6 py-3 rounded-full w-fit hover:scale-105 transition">
+          Pedir Agora →
+        </button>
+
+      </div>
+
+    </div>
   );
 }

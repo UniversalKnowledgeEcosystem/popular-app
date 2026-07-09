@@ -1,3 +1,11 @@
+import Link from "next/link";
+import {
+  Beef,
+  IceCreamCone,
+  CupSoda,
+  Flame,
+} from "lucide-react";
+
 type Props = {
   titulo: string;
   emoji: string;
@@ -6,16 +14,37 @@ type Props = {
 
 export default function CategoryCard({
   titulo,
-  emoji,
   href,
 }: Props) {
+
+  function Icon() {
+    switch (titulo) {
+      case "Hambúrgueres":
+        return <Beef size={32} />;
+
+      case "Sorvetes":
+        return <IceCreamCone size={32} />;
+
+      case "Bebidas":
+        return <CupSoda size={32} />;
+
+      default:
+        return <Flame size={32} />;
+    }
+  }
+
   return (
-    <a
+    <Link
       href={href}
-      className="bg-zinc-900 rounded-3xl p-6 text-center hover:bg-zinc-800 transition active:scale-95"
+      className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 flex flex-col items-center justify-center shadow-xl hover:scale-105 transition"
     >
-      <div className="text-4xl">{emoji}</div>
-      <h3 className="mt-3 font-bold text-white">{titulo}</h3>
-    </a>
+      <div className="w-16 h-16 rounded-full bg-yellow-400 flex items-center justify-center text-black shadow-lg">
+        <Icon />
+      </div>
+
+      <h3 className="mt-4 font-bold text-center">
+        {titulo}
+      </h3>
+    </Link>
   );
 }
