@@ -8,10 +8,8 @@ import {
   User,
   UtensilsCrossed,
 } from "lucide-react";
-import { useCart } from "../context/CartContext";
 
 export default function BottomNavigation() {
-  const { items } = useCart();
 
   const quantidade = items.reduce(
     (total, item) => total + item.quantidade,
