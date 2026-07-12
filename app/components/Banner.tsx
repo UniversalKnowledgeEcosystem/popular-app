@@ -1,29 +1,56 @@
-export default function Banner() {
+"use client";
+
+import Link from "next/link";
+import {
+  House,
+  ShoppingCart,
+  Star,
+  User,
+  UtensilsCrossed,
+} from "lucide-react";
+import { useCart } from "../context/CartContext";
+
+export default function BottomNavigation() {
+  const { items } = useCart();
+
+  const quantidade = items.reduce(
+    (total, item) => total + item.quantidade,
+    0
+  );
+
   return (
-    <div className="relative overflow-hidden rounded-3xl h-52 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 shadow-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-900">
+      <div className="mx-auto flex max-w-md justify-around py-3">
+        <Link href="/" aria-label="Início">
+          <House size={26} className="text-yellow-400" />
+        </Link>
 
-      <div className="absolute inset-0 bg-black/20" />
+        <Link href="/cardapio" aria-label="Cardápio">
+          <UtensilsCrossed size={26} className="text-white" />
+        </Link>
 
-      <div className="relative z-10 h-full flex flex-col justify-center px-8">
+        <Link
+          href="/carrinho"
+          className="relative"
+          aria-label="Carrinho"
+        >
+          <ShoppingCart size={26} className="text-white" />
 
-        <span className="bg-white text-red-600 font-black px-3 py-1 rounded-full w-fit text-sm">
-          🔥 PROMOÇÃO
-        </span>
+          {quantidade > 0 && (
+            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
+              {quantidade}
+            </span>
+          )}
+        </Link>
 
-        <h2 className="text-4xl font-black text-white mt-4 leading-tight">
-          Big Duplo
-        </h2>
+        <Link href="/fidelidade" aria-label="Fidelidade">
+          <Star size={26} className="text-white" />
+        </Link>
 
-        <p className="text-white/90 mt-2 text-lg">
-          2 carnes, queijo, bacon e molho especial.
-        </p>
-
-        <button className="mt-5 bg-white text-red-600 font-black px-6 py-3 rounded-full w-fit hover:scale-105 transition">
-          Pedir Agora →
-        </button>
-
+        <Link href="/perfil" aria-label="Perfil">
+          <User size={26} className="text-white" />
+        </Link>
       </div>
-
-    </div>
+    </nav>
   );
 }
