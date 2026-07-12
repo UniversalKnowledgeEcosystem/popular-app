@@ -3,6 +3,7 @@ type Props = {
   descricao: string;
   preco: string;
   imagem: string;
+  onAdd: () => void;
 };
 
 export default function ProductCard({
@@ -10,56 +11,48 @@ export default function ProductCard({
   descricao,
   preco,
   imagem,
+  onAdd,
 }: Props) {
   return (
-    <div className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 shadow-xl hover:scale-[1.02] transition-all duration-300">
-
+    <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900 shadow-xl">
       <div className="relative">
         <img
           src={imagem}
           alt={nome}
-          className="w-full h-56 object-cover"
+          className="h-56 w-full object-cover"
         />
 
-        <span className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+        <span className="absolute left-3 top-3 rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white">
           MAIS VENDIDO
         </span>
 
-        <span className="absolute top-3 right-3 bg-black/70 text-yellow-400 px-3 py-1 rounded-full text-sm font-bold">
+        <span className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 text-sm font-bold text-yellow-400">
           ⭐ 4.9
         </span>
       </div>
 
       <div className="p-5">
+        <h2 className="text-2xl font-black">{nome}</h2>
 
-        <h2 className="text-2xl font-black">
-          {nome}
-        </h2>
+        <p className="mt-2 text-zinc-400">{descricao}</p>
 
-        <p className="text-zinc-400 mt-2">
-          {descricao}
-        </p>
-
-        <div className="flex items-center justify-between mt-6">
-
+        <div className="mt-6 flex items-center justify-between">
           <div>
-            <p className="text-zinc-500 text-sm">
-              A partir de
-            </p>
-
-            <p className="text-yellow-400 text-3xl font-black">
+            <p className="text-sm text-zinc-500">A partir de</p>
+            <p className="text-3xl font-black text-yellow-400">
               {preco}
             </p>
           </div>
 
-          <button className="bg-yellow-400 text-black w-14 h-14 rounded-full text-3xl font-black hover:scale-110 transition">
+          <button
+            type="button"
+            onClick={onAdd}
+            className="h-14 w-14 rounded-full bg-yellow-400 text-3xl font-black text-black active:scale-95"
+          >
             +
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }
