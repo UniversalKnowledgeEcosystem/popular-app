@@ -1,55 +1,47 @@
-   
 "use client";
 
-import { useCart } from "../context/CartContext";
 import Link from "next/link";
 import {
   House,
-  UtensilsCrossed,
   ShoppingCart,
   Star,
   User,
+  UtensilsCrossed,
 } from "lucide-react";
-const { items } = useCart();
+import { useCart } from "../context/CartContext";
 
-const quantidade = items.reduce(
-  (total, item) => total + item.quantidade,
-  0
-);
 export default function BottomNavigation() {
+  const { quantidadeTotal } = useCart();
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800">
-
-      <div className="max-w-md mx-auto flex justify-around py-3">
-
-        <Link href="/">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-900">
+      <div className="mx-auto flex max-w-md justify-around py-3">
+        <Link href="/" aria-label="Início">
           <House size={26} className="text-yellow-400" />
         </Link>
 
-        <Link href="/cardapio">
+        <Link href="/cardapio" aria-label="Cardápio">
           <UtensilsCrossed size={26} className="text-white" />
         </Link>
 
-        <Link href="/carrinho" className="relative">
-  <ShoppingCart size={26} className="text-white" />
+        <Link href="/carrinho" className="relative" aria-label="Carrinho">
+          <ShoppingCart size={26} className="text-white" />
 
-  {quantidade > 0 && (
-    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-      {quantidade}
-    </span>
-  )}
-</Link>
+          {quantidadeTotal > 0 && (
+            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
+              {quantidadeTotal}
+            </span>
+          )}
+        </Link>
 
-        <Link href="/fidelidade">
+        <Link href="/fidelidade" aria-label="Fidelidade">
           <Star size={26} className="text-white" />
         </Link>
 
-        <Link href="/perfil">
+        <Link href="/perfil" aria-label="Perfil">
           <User size={26} className="text-white" />
         </Link>
-
       </div>
-
     </nav>
   );
 }

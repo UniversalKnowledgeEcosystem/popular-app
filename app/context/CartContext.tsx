@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 type CartItem = {
   id: number;
@@ -11,27 +17,26 @@ type CartItem = {
 
 type CartContextType = {
   items: CartItem[];
+  quantidadeTotal: number;
   adicionar: (item: Omit<CartItem, "quantidade">) => void;
 };
 
-const CartContext = createContext<CartContextType | null>(null);
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export function CartProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
   function adicionar(item: Omit<CartItem, "quantidade">) {
     setItems((lista) => {
-      const existe = lista.find((i) => i.id === item.id);
+      const produtoExistente = lista.find(
+        (produto) => produto.id === item.id
+      );
 
-      if (existe) {
-        return lista.map((i) =>
-          i.id === item.id
-            ? { ...i, quantidade: i.quantidade + 1 }
-            : i
+      if (produtoExistente) {
+        return lista.map((produto) =>
+          produto.id === item.id
+            ? { ...produto, quantidade: produto.quantidade + 1 }
+            : produto
         );
       }
 
@@ -39,8 +44,19 @@ export function CartProvider({
     });
   }
 
+  const quantidadeTotal = useMemo(
+    () =>
+      items.reduce(
+        (total, produto) => total + produto.quantidade,
+        0
+      ),
+    [items]
+  );
+
   return (
-    <CartContext.Provider value={{ items, adicionar }}>
+    <CartContext.Provider
+      value={{ items, quantidadeTotal, adicionar }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -49,8 +65,8 @@ export function CartProvider({
 export function useCart() {
   const contexto = useContext(CartContext);
 
-  if (!contexto) {
-    throw new Error("CartProvider não encontrado.");
+  if (contexto === undefined) {
+    throw new Error("useCart precisa estar dentro do CartProvider.");
   }
 
   return contexto;
