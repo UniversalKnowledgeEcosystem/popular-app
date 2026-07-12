@@ -1,7 +1,7 @@
-   import { useCart } from "../context/CartContext";
    
-   "use client";
+"use client";
 
+import { useCart } from "../context/CartContext";
 import Link from "next/link";
 import {
   House,
