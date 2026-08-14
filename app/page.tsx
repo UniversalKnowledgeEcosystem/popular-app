@@ -4,6 +4,7 @@ import Banner from "./components/Banner";
 import Categories from "./components/Categories";
 import FeaturedProducts from "./components/FeaturedProducts";
 import LoyaltyCard from "./components/LoyaltyCard";
+import LocationCard from "./components/LocationCard";
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
       <FeaturedProducts />
 
       <LoyaltyCard />
+
+      <LocationCard />
     </main>
   );
 }
