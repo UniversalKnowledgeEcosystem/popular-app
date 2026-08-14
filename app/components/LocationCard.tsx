@@ -2,8 +2,11 @@
 
 import { MapPin, Navigation } from "lucide-react";
 
-const ENDERECO = "Rua B, nº 26 - Morais 1, Rio Pardo de Minas - MG";
-const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ENDERECO)}`;
+const ENDERECO = "Rua Capistrano Carmo, 26 - Morais 1, Rio Pardo de Minas - MG, 39530-000";
+const NOME_MAPS = "HAMBURGUERIA E SORVETERIA POPULAR";
+const PLACE_ID = "ChIJIWqngMIfTgcRbFX8YH_ZNa0";
+const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(NOME_MAPS)}&query_place_id=${PLACE_ID}`;
+const ROTA_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(NOME_MAPS)}&destination_place_id=${PLACE_ID}`;
 
 export default function LocationCard() {
   return (
@@ -20,19 +23,18 @@ export default function LocationCard() {
           </div>
         </div>
 
-        <a
-          href={MAPS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-5 w-full bg-yellow-400 text-black py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-[.98] transition"
-        >
-          <Navigation size={19} />
-          Abrir rota no Google Maps
-        </a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-5">
+          <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="w-full bg-zinc-800 text-white py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-[.98] transition">
+            <MapPin size={19}/>
+            Ver no Google Maps
+          </a>
+          <a href={ROTA_URL} target="_blank" rel="noopener noreferrer" className="w-full bg-yellow-400 text-black py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-[.98] transition">
+            <Navigation size={19}/>
+            Como chegar
+          </a>
+        </div>
 
-        <p className="text-center text-xs text-zinc-500 mt-3">
-          Toque para abrir a localização e iniciar a rota pelo celular.
-        </p>
+        <p className="text-center text-xs text-zinc-500 mt-3">Abre diretamente o cadastro da Popular no Google Maps.</p>
       </div>
     </section>
   );
