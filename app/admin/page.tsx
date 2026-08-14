@@ -1,38 +1,67 @@
-const cards = [
-  { titulo: "Pedidos hoje", valor: "28" },
-  { titulo: "Faturamento", valor: "R$ 1.248,90" },
-  { titulo: "Clientes", valor: "342" },
-  { titulo: "Cupons ativos", valor: "5" },
-];
+"use client";
+
+import { useState } from "react";
+
+type Cliente = { id:number; nome:string; telefone:string; pontos:number; total_pedidos:number; total_gasto:number };
 
 export default function Admin() {
+  const [token, setToken] = useState("");
+  const [usuario, setUsuario] = useState("admin");
+  const [senha, setSenha] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [cliente, setCliente] = useState<Cliente | null>(null);
+  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function chamar(body: Record<string, unknown>, auth = true) {
+    setLoading(true); setMsg("");
+    try {
+      const r = await fetch("/api/admin", { method:"POST", headers:{ "Content-Type":"application/json", ...(auth ? { Authorization:`Bearer ${token}` } : {}) }, body:JSON.stringify(body) });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "Erro");
+      return data;
+    } catch(e) { setMsg(e instanceof Error ? e.message : "Erro inesperado"); return null; }
+    finally { setLoading(false); }
+  }
+
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    const data = await chamar({ action:"login", usuario, senha }, false);
+    if (data?.token) { setToken(data.token); setSenha(""); setMsg("Login realizado com sucesso."); }
+  }
+
+  async function acao(action: "buscar"|"adicionar"|"remover") {
+    const data = await chamar({ action, telefone });
+    if (data?.cliente) { setCliente(data.cliente); setMsg(action === "buscar" ? "Cliente encontrado." : action === "adicionar" ? "Selo adicionado com sucesso." : "Selo removido com sucesso."); }
+  }
+
+  if (!token) return (
+    <main className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
+      <form onSubmit={login} className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-4">
+        <div><p className="text-yellow-400 font-bold text-sm">POPULAR HAMBURGUERIA E SORVETERIA</p><h1 className="text-3xl font-black mt-1">🔐 Painel Admin</h1></div>
+        <input value={usuario} onChange={e=>setUsuario(e.target.value)} placeholder="Usuário" autoComplete="username" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-4 outline-none focus:border-yellow-400" />
+        <input value={senha} onChange={e=>setSenha(e.target.value)} type="password" placeholder="Senha" autoComplete="current-password" className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-4 outline-none focus:border-yellow-400" />
+        <button disabled={loading} className="w-full bg-yellow-400 text-black py-4 rounded-xl font-black disabled:opacity-60">{loading ? "Entrando..." : "Entrar"}</button>
+        {msg && <p className="text-sm text-center text-zinc-300">{msg}</p>}
+      </form>
+    </main>
+  );
+
   return (
     <main className="min-h-screen bg-zinc-950 text-white p-6 pb-24">
-      <h1 className="text-4xl font-black text-yellow-400">
-        👨‍💼 Painel Admin
-      </h1>
-
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        {cards.map((card) => (
-          <div key={card.titulo} className="bg-zinc-900 rounded-3xl p-5">
-            <p className="text-zinc-400">{card.titulo}</p>
-            <h2 className="text-3xl font-black mt-2">{card.valor}</h2>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 space-y-4">
-        <button className="w-full bg-yellow-400 text-black py-4 rounded-2xl font-black">
-          Gerenciar Cardápio
-        </button>
-
-        <button className="w-full bg-zinc-900 py-4 rounded-2xl font-bold">
-          Ver Pedidos
-        </button>
-
-        <button className="w-full bg-zinc-900 py-4 rounded-2xl font-bold">
-          Clientes e Pontos
-        </button>
+      <div className="max-w-xl mx-auto">
+        <div className="flex justify-between items-start gap-4"><div><p className="text-yellow-400 font-bold text-sm">POPULAR HAMBURGUERIA E SORVETERIA</p><h1 className="text-3xl font-black">👨‍💼 Fidelidade</h1></div><button onClick={()=>{setToken("");setCliente(null);}} className="text-sm bg-zinc-800 px-4 py-2 rounded-xl">Sair</button></div>
+        <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 mt-7">
+          <label className="font-bold">WhatsApp do cliente</label>
+          <div className="flex gap-2 mt-3"><input value={telefone} onChange={e=>setTelefone(e.target.value)} inputMode="tel" placeholder="38999999999" className="min-w-0 flex-1 bg-zinc-800 border border-zinc-700 rounded-xl p-4 outline-none focus:border-yellow-400"/><button disabled={loading} onClick={()=>acao("buscar")} className="bg-yellow-400 text-black px-5 rounded-xl font-black">Buscar</button></div>
+        </section>
+        {cliente && <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 mt-4">
+          <p className="text-zinc-400 text-sm">Cliente</p><h2 className="text-2xl font-black">{cliente.nome || "Cliente"}</h2><p className="text-zinc-400">{cliente.telefone}</p>
+          <div className="bg-yellow-400 text-black rounded-2xl p-5 mt-5 text-center"><p className="font-bold">SELOS</p><p className="text-5xl font-black">{cliente.pontos}/10</p></div>
+          <div className="grid grid-cols-2 gap-3 mt-4"><button disabled={loading} onClick={()=>acao("adicionar")} className="bg-yellow-400 text-black py-4 rounded-xl font-black">+ Adicionar selo</button><button disabled={loading || cliente.pontos<=0} onClick={()=>acao("remover")} className="bg-zinc-800 py-4 rounded-xl font-bold disabled:opacity-40">− Remover selo</button></div>
+          <div className="grid grid-cols-2 gap-3 mt-3 text-center"><div className="bg-zinc-800 rounded-xl p-3"><p className="text-zinc-400 text-xs">Pedidos</p><b>{cliente.total_pedidos}</b></div><div className="bg-zinc-800 rounded-xl p-3"><p className="text-zinc-400 text-xs">Total gasto</p><b>R$ {Number(cliente.total_gasto||0).toFixed(2).replace(".",",")}</b></div></div>
+        </section>}
+        {msg && <p className="mt-4 text-center text-sm text-zinc-300">{msg}</p>}
       </div>
     </main>
   );
