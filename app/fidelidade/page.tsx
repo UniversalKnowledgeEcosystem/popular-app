@@ -1,53 +1,19 @@
-export default function Fidelidade() {
-  return (
-    <main className="min-h-screen bg-zinc-950 text-white p-6 pb-24">
-
-      <h1 className="text-4xl font-black text-yellow-400">
-        ⭐ Fidelidade
-      </h1>
-
-      <p className="text-zinc-400 mt-2">
-        Ganhe pontos em todas as compras.
-      </p>
-
-      <div className="mt-8 bg-zinc-900 rounded-3xl p-6">
-
-        <p className="text-zinc-400">
-          Seus Pontos
-        </p>
-
-        <h2 className="text-6xl font-black text-yellow-400 mt-2">
-          120
-        </h2>
-
-        <div className="w-full bg-zinc-700 rounded-full h-4 mt-6">
-
-          <div className="bg-yellow-400 h-4 rounded-full w-3/4"></div>
-
-        </div>
-
-        <p className="mt-4 text-zinc-400">
-          Faltam apenas
-          <span className="text-yellow-400 font-bold">
-            {" "}30 pontos{" "}
-          </span>
-          para ganhar um hambúrguer grátis.
-        </p>
-
-      </div>
-
-      <div className="mt-8 bg-zinc-900 rounded-3xl p-6">
-
-        <h3 className="text-2xl font-bold">
-          🎁 Próxima recompensa
-        </h3>
-
-        <p className="text-zinc-400 mt-3">
-          X-Burger Tradicional
-        </p>
-
-      </div>
-
-    </main>
-  );
+"use client";
+import { useEffect,useState } from "react";
+const META=10;
+export default function Fidelidade(){
+ const [telefone,setTelefone]=useState("");const [selos,setSelos]=useState(0);const [carregado,setCarregado]=useState(false);
+ useEffect(()=>{const t=localStorage.getItem("popular-fidelidade-telefone")||"";const s=Number(localStorage.getItem("popular-fidelidade-selos")||0);setTelefone(t);setSelos(s);setCarregado(true)},[]);
+ function salvar(){if(telefone.replace(/\D/g,"").length<10){alert("Digite um WhatsApp válido com DDD.");return}localStorage.setItem("popular-fidelidade-telefone",telefone);localStorage.setItem("popular-fidelidade-selos",String(selos));alert("Cartão fidelidade salvo neste aparelho!")}
+ function solicitar(){if(!telefone){alert("Cadastre seu WhatsApp primeiro.");return}const msg=`⭐ *FIDELIDADE POPULAR*\n\nOlá! Meu WhatsApp cadastrado é ${telefone}.\nGostaria de validar minha compra e receber meu selo no programa de fidelidade.`;window.open(`https://wa.me/5538991429166?text=${encodeURIComponent(msg)}`,"_blank")}
+ function resgatar(){const msg=`🎁 *RESGATE FIDELIDADE POPULAR*\n\nOlá! Completei ${META} selos no meu cartão fidelidade e gostaria de solicitar minha recompensa.\nWhatsApp cadastrado: ${telefone}`;window.open(`https://wa.me/5538991429166?text=${encodeURIComponent(msg)}`,"_blank")}
+ if(!carregado)return <main className="min-h-screen bg-zinc-950"/>;
+ const faltam=Math.max(META-selos,0);const progresso=Math.min((selos/META)*100,100);
+ return <main className="min-h-screen bg-zinc-950 text-white p-4 pb-28 max-w-2xl mx-auto"><header className="pt-3"><p className="text-yellow-400 font-bold text-sm">POPULAR HAMBURGUERIA E SORVETERIA</p><h1 className="text-3xl font-black mt-1">⭐ Clube Popular</h1><p className="text-zinc-400 mt-2">Seu cartão fidelidade digital.</p></header>
+ <section className="mt-6 bg-gradient-to-br from-yellow-400 to-yellow-500 text-black rounded-3xl p-6 shadow-xl"><div className="flex justify-between"><div><p className="font-bold opacity-70">SEU CARTÃO</p><h2 className="text-3xl font-black mt-1">{selos}/{META} selos</h2></div><div className="text-4xl">🍔</div></div><div className="grid grid-cols-5 gap-3 mt-6">{Array.from({length:META}).map((_,i)=><div key={i} className={`aspect-square rounded-full flex items-center justify-center text-xl border-2 border-black/20 ${i<selos?"bg-black text-yellow-400":"bg-white/35"}`}>{i<selos?"★":i+1}</div>)}</div><div className="h-3 bg-black/20 rounded-full mt-6 overflow-hidden"><div className="h-full bg-black rounded-full transition-all" style={{width:`${progresso}%`}}/></div><p className="font-bold mt-3">{faltam>0?`Faltam ${faltam} selo${faltam===1?"":"s"} para completar seu cartão.`:"🎉 Cartão completo! Sua recompensa está disponível."}</p></section>
+ <section className="mt-5 bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><h2 className="text-xl font-black">🎁 Recompensa</h2><p className="text-zinc-300 mt-2">Complete {META} selos e solicite sua recompensa na Popular.</p>{selos>=META&&<button onClick={resgatar} className="w-full mt-4 bg-green-500 text-black py-3 rounded-xl font-black">Solicitar recompensa pelo WhatsApp</button>}</section>
+ <section className="mt-5 bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><h2 className="text-xl font-black">📱 Identificação</h2><p className="text-zinc-400 text-sm mt-1">Cadastre o WhatsApp usado nos seus pedidos.</p><input value={telefone} onChange={e=>setTelefone(e.target.value)} placeholder="(38) 99999-9999" inputMode="tel" className="w-full mt-4 bg-zinc-800 border border-zinc-700 rounded-xl p-3 outline-none focus:border-yellow-400"/><button onClick={salvar} className="w-full mt-3 bg-yellow-400 text-black py-3 rounded-xl font-black">Salvar meu cartão</button></section>
+ <section className="mt-5 bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><h2 className="text-xl font-black">Como ganhar selos?</h2><p className="text-zinc-400 text-sm mt-2">Após uma compra válida, solicite a validação à Popular. A equipe confirma o pedido antes de creditar o selo, evitando créditos indevidos.</p><button onClick={solicitar} className="w-full mt-4 border border-yellow-400 text-yellow-400 py-3 rounded-xl font-black">Solicitar validação da compra</button></section>
+ <details className="mt-5 bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><summary className="font-black cursor-pointer">ℹ️ Regras do programa</summary><div className="text-sm text-zinc-400 mt-3 space-y-2"><p>• O selo só deve ser liberado após confirmação de uma compra válida.</p><p>• O cartão fica salvo neste aparelho.</p><p>• A recompensa é confirmada pela Popular antes do resgate.</p><p>• A Popular pode definir quais compras são elegíveis e atualizar as regras do programa.</p></div></details>
+ </main>;
 }
