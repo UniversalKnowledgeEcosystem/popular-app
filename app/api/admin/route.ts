@@ -79,9 +79,26 @@ export async function POST(req: NextRequest) {
       if (error) throw error;
     } else if (body.action === "remover") {
       if (cliente.pontos <= 0) return NextResponse.json({ error: "Cliente já está com 0 selos" }, { status: 400 });
-      const { error } = await database.from("clientes_fidelidade")
-        .update({ pontos: cliente.pontos - 1, atualizado_em: new Date().toISOString() }).eq("id", cliente.id);
-      if (error) throw error;
+
+      const novosPontos = cliente.pontos - 1;
+      const { error: updateError } = await database.from("clientes_fidelidade")
+        .update({ pontos: novosPontos, atualizado_em: new Date().toISOString() }).eq("id", cliente.id);
+      if (updateError) throw updateError;
+
+      const { error: historicoError } = await database.from("historico_fidelidade").insert({
+        cliente_id: cliente.id,
+        tipo: "resgate",
+        pontos: -1,
+        descricao: "Selo removido manualmente pelo painel administrativo",
+        pedido_id: `ADMIN-REMOVER-${Date.now()}-${crypto.randomBytes(3).toString("hex")}`,
+      });
+
+      if (historicoError) {
+        const { error: rollbackError } = await database.from("clientes_fidelidade")
+          .update({ pontos: cliente.pontos, atualizado_em: new Date().toISOString() }).eq("id", cliente.id);
+        if (rollbackError) console.error("Falha ao reverter remoção de selo", rollbackError);
+        throw historicoError;
+      }
     } else {
       return NextResponse.json({ error: "Ação inválida" }, { status: 400 });
     }
