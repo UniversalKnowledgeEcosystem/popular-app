@@ -1,41 +1,7 @@
-const itens = [
-  { nome: "Popular Bacon", preco: "R$ 34,90", quantidade: 1 },
-  { nome: "Batata Frita", preco: "R$ 12,00", quantidade: 1 },
-];
-
-export default function Carrinho() {
-  return (
-    <main className="min-h-screen bg-zinc-950 text-white p-6 pb-24">
-      <h1 className="text-4xl font-black text-yellow-400">
-        🛒 Carrinho
-      </h1>
-
-      <div className="mt-8 space-y-4">
-        {itens.map((item) => (
-          <div
-            key={item.nome}
-            className="bg-zinc-900 rounded-3xl p-5 flex justify-between"
-          >
-            <div>
-              <h2 className="text-xl font-bold">{item.nome}</h2>
-              <p className="text-zinc-400">Qtd: {item.quantidade}</p>
-            </div>
-
-            <strong className="text-yellow-400">{item.preco}</strong>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 bg-zinc-900 rounded-3xl p-6">
-        <div className="flex justify-between text-xl font-bold">
-          <span>Total</span>
-          <span className="text-yellow-400">R$ 46,90</span>
-        </div>
-
-        <button className="mt-6 w-full bg-yellow-400 text-black py-4 rounded-2xl font-black">
-          Finalizar Pedido
-        </button>
-      </div>
-    </main>
-  );
-}
+"use client";
+import Link from "next/link";
+import { useCart } from "../context/CartContext";
+import { formatPrice } from "../../utils/format";
+export default function Carrinho(){const {items,total,adicionar,diminuir,remover,limpar}=useCart();
+ if(items.length===0)return <main className="min-h-screen bg-zinc-950 text-white p-6 pb-24"><h1 className="text-3xl font-black text-yellow-400">🛒 Carrinho</h1><div className="text-center py-24"><div className="text-6xl">🛒</div><h2 className="text-xl font-bold mt-5">Seu carrinho está vazio</h2><p className="text-zinc-400 mt-2">Escolha seus produtos no cardápio.</p><Link href="/cardapio" className="inline-block mt-6 bg-yellow-400 text-black px-6 py-3 rounded-2xl font-black">Ver cardápio</Link></div></main>;
+ return <main className="min-h-screen bg-zinc-950 text-white p-4 pb-28 max-w-3xl mx-auto"><div className="flex justify-between items-center"><h1 className="text-3xl font-black text-yellow-400">🛒 Carrinho</h1><button onClick={limpar} className="text-red-400 text-sm font-bold">Limpar</button></div><div className="mt-6 space-y-3">{items.map(item=><div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><div className="flex justify-between gap-3"><div><h2 className="font-bold text-lg">{item.nome}</h2><p className="text-yellow-400 font-bold">{formatPrice(item.preco)} cada</p></div><button onClick={()=>remover(item.id)} className="text-zinc-500 text-xl" aria-label="Remover">×</button></div><div className="flex justify-between items-center mt-4"><div className="flex items-center bg-zinc-800 rounded-xl"><button onClick={()=>diminuir(item.id)} className="w-11 h-11 text-xl font-black">−</button><span className="w-10 text-center font-black">{item.quantidade}</span><button onClick={()=>adicionar({id:item.id,nome:item.nome,preco:item.preco})} className="w-11 h-11 text-xl font-black text-yellow-400">+</button></div><strong>{formatPrice(item.preco*item.quantidade)}</strong></div></div>)}</div><div className="mt-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><div className="flex justify-between text-xl font-black"><span>Total</span><span className="text-yellow-400">{formatPrice(total)}</span></div><button className="mt-5 w-full bg-yellow-400 text-black py-4 rounded-2xl font-black text-lg">Finalizar Pedido</button><Link href="/cardapio" className="block text-center mt-4 text-yellow-400 font-bold">+ Adicionar mais itens</Link></div></main>}
