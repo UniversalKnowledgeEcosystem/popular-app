@@ -1,54 +1,25 @@
-"use client";
-
-import Link from "next/link";
-import {
-  House,
-  ShoppingCart,
-  Star,
-  User,
-  UtensilsCrossed,
-} from "lucide-react";
-
-export default function BottomNavigation() {
-
-  const quantidade = items.reduce(
-    (total, item) => total + item.quantidade,
-    0
-  );
-
+export default function Banner() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-900">
-      <div className="mx-auto flex max-w-md justify-around py-3">
-        <Link href="/" aria-label="Início">
-          <House size={26} className="text-yellow-400" />
-        </Link>
+    <div className="relative h-52 overflow-hidden rounded-3xl bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 shadow-2xl">
+      <div className="absolute inset-0 bg-black/20" />
 
-        <Link href="/cardapio" aria-label="Cardápio">
-          <UtensilsCrossed size={26} className="text-white" />
-        </Link>
+      <div className="relative z-10 flex h-full flex-col justify-center px-8">
+        <span className="w-fit rounded-full bg-white px-3 py-1 text-sm font-black text-red-600">
+          🔥 PROMOÇÃO
+        </span>
 
-        <Link
-          href="/carrinho"
-          className="relative"
-          aria-label="Carrinho"
-        >
-          <ShoppingCart size={26} className="text-white" />
+        <h2 className="mt-4 text-4xl font-black leading-tight text-white">
+          Big Duplo
+        </h2>
 
-          {quantidade > 0 && (
-            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
-              {quantidade}
-            </span>
-          )}
-        </Link>
+        <p className="mt-2 text-lg text-white/90">
+          2 carnes, queijo, bacon e molho especial.
+        </p>
 
-        <Link href="/fidelidade" aria-label="Fidelidade">
-          <Star size={26} className="text-white" />
-        </Link>
-
-        <Link href="/perfil" aria-label="Perfil">
-          <User size={26} className="text-white" />
-        </Link>
+        <button className="mt-5 w-fit rounded-full bg-white px-6 py-3 font-black text-red-600 transition hover:scale-105">
+          Pedir Agora →
+        </button>
       </div>
-    </nav>
+    </div>
   );
 }
