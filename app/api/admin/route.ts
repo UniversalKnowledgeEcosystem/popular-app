@@ -35,6 +35,22 @@ export async function POST(req: NextRequest) {
     const body=await req.json(); const database=db();
     if(body.action==="login") { const usuario=String(body.usuario||"").trim(),senha=String(body.senha||""); const {data,error}=await database.rpc("verificar_admin_popular",{p_usuario:usuario,p_senha:senha}); if(error)throw error; if(!data)return NextResponse.json({error:"Usuário ou senha incorretos"},{status:401}); return NextResponse.json({token:makeToken()}); }
     if(!validToken(req.headers.get("authorization")?.replace(/^Bearer\s+/i,"")||null)) return NextResponse.json({error:"Sessão inválida ou expirada"},{status:401});
+    if (body.action === "listar_pedidos") {
+  const { data: pedidos, error } = await database
+    .from("pedidos")
+    .select(
+      "id,pedido_id,whatsapp,nome_cliente,total,status,selo_creditado,criado_em,confirmado_em"
+    )
+    .eq("status", "pendente")
+    .order("criado_em", { ascending: false })
+    .limit(50);
+
+  if (error) throw error;
+
+  return NextResponse.json({
+    pedidos: pedidos || [],
+  });
+}
     const tel=telefone(body.telefone); if(!tel)return NextResponse.json({error:"WhatsApp inválido"},{status:400});
     const {data:cliente,error:buscaErro}=await database.from("clientes_fidelidade").select("id,nome,telefone,pontos,total_pedidos,total_gasto,atualizado_em").eq("telefone",tel).maybeSingle();
     if(buscaErro)throw buscaErro; if(!cliente)return NextResponse.json({error:"Cliente não encontrado"},{status:404});
