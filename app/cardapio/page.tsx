@@ -50,8 +50,43 @@ function volumeDoProduto(nome: string) {
   return 350;
 }
 
+function RefrigeranteRealista({ nome }: { nome: string }) {
+  const volume = volumeDoProduto(nome);
+  const coca = /coca-cola/i.test(nome);
+  const kuat = /kuat/i.test(nome);
+  const monster = /monster/i.test(nome);
+  const lata = /lata|monster/i.test(nome);
+  const escala = volume >= 2000 ? 1.34 : volume >= 1000 ? 1.14 : volume >= 470 ? 1.02 : volume >= 350 ? 0.94 : 0.82;
+  const w = Math.round(34 * escala);
+  const h = Math.round((lata ? 54 : 68) * escala);
+  const corpo = monster ? "#111827" : kuat ? "#166534" : "#b91c1c";
+  const rotulo = monster ? "#111827" : kuat ? "#facc15" : "#dc2626";
+  const texto = monster ? "M" : kuat ? "KUAT" : "Coca-Cola";
+
+  return <div className="w-16 shrink-0 flex flex-col items-center justify-center" title={nome}>
+    <div className="relative flex items-end justify-center" style={{ width: w + 10, height: h + 8 }}>
+      {!lata && <>
+        <div className="absolute top-0 rounded-t-md" style={{ width: Math.max(8, Math.round(w * .34)), height: Math.round(h * .13), background: coca ? "#dc2626" : "#15803d" }} />
+        <div className="absolute top-[8%] rounded-t-full" style={{ width: Math.round(w * .58), height: Math.round(h * .22), background: "#3f2a22", border: "1px solid rgba(255,255,255,.28)" }} />
+      </>}
+      <div className="absolute bottom-0 overflow-hidden shadow-lg border border-white/25" style={{ width: w, height: lata ? h : Math.round(h * .82), borderRadius: lata ? 8 : "9px 9px 13px 13px", background: lata ? corpo : "linear-gradient(90deg,#2b1b16,#4b2b20,#2b1b16)" }}>
+        <div className="absolute left-0 right-0 top-[35%] flex items-center justify-center text-center font-black" style={{ height: Math.round((lata ? h : h * .82) * .42), background: rotulo, color: monster ? "#84cc16" : kuat ? "#166534" : "white", fontSize: monster ? Math.max(17, Math.round(18 * escala)) : kuat ? Math.max(7, Math.round(8 * escala)) : Math.max(6, Math.round(7 * escala)), fontStyle: coca ? "italic" : "normal", letterSpacing: kuat ? .4 : 0 }}>
+          {texto}
+        </div>
+        {monster && <div className="absolute inset-x-0 top-[18%] text-center text-[8px] font-black text-lime-400">ENERGY</div>}
+        {kuat && <div className="absolute inset-x-0 bottom-1 text-center text-[6px] font-bold text-yellow-300">GUARANÁ</div>}
+        {coca && !lata && <div className="absolute inset-x-0 bottom-1 text-center text-[5px] font-bold text-white/80">SABOR ORIGINAL</div>}
+        <div className="absolute inset-y-0 left-[14%] w-[10%] bg-white/10 rounded-full" />
+      </div>
+      {lata && <div className="absolute top-0 rounded-full bg-zinc-300 border border-zinc-100" style={{ width: w, height: 5 }} />}
+    </div>
+    <span className="text-[9px] leading-none font-black text-zinc-400 mt-1">{volume >= 1000 ? `${volume / 1000}L` : `${volume}ml`}</span>
+  </div>;
+}
+
 function IconeProduto({ item }: { item: Item }) {
-  if (!["Bebidas", "Sucos", "Açaí", "Milk Shakes"].includes(item.categoria)) {
+  if (item.categoria === "Bebidas") return <RefrigeranteRealista nome={item.nome} />;
+  if (!["Sucos", "Açaí", "Milk Shakes"].includes(item.categoria)) {
     return <div className="text-3xl w-12 shrink-0 text-center">{item.emoji}</div>;
   }
 
@@ -63,26 +98,16 @@ function IconeProduto({ item }: { item: Item }) {
   const isMilk = item.categoria === "Milk Shakes";
   const isVitamina = /vitamina/i.test(item.nome);
   const isSuco = item.categoria === "Sucos" && !isVitamina;
-  const isLata = /lata|monster/i.test(item.nome);
   const cor = isAcai ? "#6d28d9" : isMilk || isVitamina ? "#f5deb3" : isSuco ? "#f59e0b" : "#b91c1c";
-  const simbolo = isAcai ? "🫐" : isMilk ? "🥛" : isVitamina ? "🍌" : isSuco ? "🍊" : isLata ? "🥤" : "🥤";
+  const simbolo = isAcai ? "🫐" : isMilk ? "🥛" : isVitamina ? "🍌" : "🍊";
 
   return (
     <div className="w-14 shrink-0 flex flex-col items-center justify-center" title={`${item.nome} • ${volume} ml`}>
       <div className="relative flex items-center justify-center" style={{ width: largura + 8, height: altura + 8 }}>
-        <div
-          className="relative border-2 border-white/70 shadow-md flex items-center justify-center overflow-hidden"
-          style={{
-            width: largura,
-            height: altura,
-            background: `linear-gradient(to top, ${cor} 0%, ${cor} 74%, rgba(255,255,255,.2) 74%)`,
-            borderRadius: isLata ? 7 : "4px 4px 9px 9px",
-            clipPath: isLata ? undefined : "polygon(8% 0,92% 0,82% 100%,18% 100%)",
-          }}
-        >
+        <div className="relative border-2 border-white/70 shadow-md flex items-center justify-center overflow-hidden" style={{ width: largura, height: altura, background: `linear-gradient(to top, ${cor} 0%, ${cor} 74%, rgba(255,255,255,.2) 74%)`, borderRadius: "4px 4px 9px 9px", clipPath: "polygon(8% 0,92% 0,82% 100%,18% 100%)" }}>
           <span style={{ fontSize: Math.max(12, Math.round(15 * escala)) }} aria-hidden="true">{simbolo}</span>
         </div>
-        {!isLata && <div className="absolute -top-1 h-1.5 rounded-full bg-white/80" style={{ width: Math.round(largura * 0.9) }} />}
+        <div className="absolute -top-1 h-1.5 rounded-full bg-white/80" style={{ width: Math.round(largura * 0.9) }} />
       </div>
       <span className="text-[9px] leading-none font-black text-zinc-400 mt-1">{volume >= 1000 ? `${volume / 1000}L` : `${volume}ml`}</span>
     </div>
