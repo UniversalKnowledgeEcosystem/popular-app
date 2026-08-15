@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/android-apk.yml'
       - 'android-wrapper/**'
+      - 'public/logo.png'
 
 jobs:
   apk:
@@ -22,14 +23,26 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.7'
+      - name: Gerar ícones oficiais da Popular
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y imagemagick
+          for spec in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${spec%%:*}"
+            size="${spec##*:}"
+            dir="android-wrapper/app/src/main/res/mipmap-${density}"
+            mkdir -p "$dir"
+            convert public/logo.png -resize "${size}x${size}" -background none -gravity center -extent "${size}x${size}" "$dir/ic_launcher.png"
+            cp "$dir/ic_launcher.png" "$dir/ic_launcher_round.png"
+          done
       - name: Compilar APK
         working-directory: android-wrapper
         run: gradle assembleDebug --no-daemon
       - name: Preparar APK
-        run: cp android-wrapper/app/build/outputs/apk/debug/app-debug.apk Popular-v1.0.0.apk
+        run: cp android-wrapper/app/build/outputs/apk/debug/app-debug.apk Popular-v1.0.1.apk
       - name: Publicar APK
         uses: actions/upload-artifact@v4
         with:
-          name: Popular-v1.0.0-APK
-          path: Popular-v1.0.0.apk
+          name: Popular-v1.0.1-APK
+          path: Popular-v1.0.1.apk
           retention-days: 90
