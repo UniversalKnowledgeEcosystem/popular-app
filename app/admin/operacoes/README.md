@@ -1,2 +1,2 @@
 # Central de Operações
-Módulo administrativo isolado para pedidos, prêmios e conferência de aniversários. Acesso protegido: /admin/operacoes.
+Pedidos, prêmios e aniversários em módulo administrativo isolado. Rota: /admin/operacoes.
