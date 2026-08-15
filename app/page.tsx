@@ -23,4 +23,5 @@ export default function Home(){return <main className="min-h-screen bg-zinc-950 
  <Categories/><FeaturedProducts/>
  <section className="px-6 max-w-5xl mx-auto"><div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 flex gap-4 items-center"><div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center text-2xl">⚡</div><div><h3 className="font-black">Mais rápido a cada pedido</h3><p className="text-sm text-zinc-400 mt-1">Favoritos, dados salvos no aparelho, personalização e acompanhamento automático.</p></div></div></section>
  <LoyaltyCard/><LocationCard/>
+ <footer className="px-6 mt-8 max-w-5xl mx-auto text-center"><div className="border-t border-zinc-900 pt-5"><Link href="/admin" aria-label="Acessar administração" className="inline-flex items-center gap-2 text-xs text-zinc-600 hover:text-zinc-400 transition px-3 py-2 rounded-xl"><span aria-hidden="true">⚙️</span><span>Administração</span></Link></div></footer>
  </main>}
