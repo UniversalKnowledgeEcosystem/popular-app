@@ -1,13 +1,25 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: dark;
+  --popular-yellow: #facc15;
+  --popular-black: #09090b;
+  --popular-surface: #18181b;
+  --popular-white: #ffffff;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  color-scheme: dark;
+  background: var(--popular-black);
 }
 
 body {
   min-width: 320px;
   text-rendering: optimizeLegibility;
+  background: var(--popular-black);
+  color: var(--popular-white);
 }
 
 button,
@@ -28,7 +40,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #facc15;
+  outline: 2px solid var(--popular-yellow);
   outline-offset: 2px;
 }
 
@@ -36,6 +48,15 @@ input,
 select,
 textarea {
   font-size: 16px;
+}
+
+/* Mantém a identidade Popular consistente entre navegadores e aparelhos. */
+.popular-primary {
+  background-color: var(--popular-yellow) !important;
+  color: #000000 !important;
+  forced-color-adjust: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 @media (max-width: 640px) {
