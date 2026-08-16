@@ -2,7 +2,7 @@
 -- Execute uma vez no Supabase SQL Editor.
 create or replace function public.resgatar_premio_fidelidade(
   p_telefone text,
-  p_pontos integer default 10,
+  p_pontos integer default 12,
   p_descricao text default 'Prêmio entregue: 1 X-Salada grátis'
 )
 returns table(ok boolean, pontos_restantes integer)
