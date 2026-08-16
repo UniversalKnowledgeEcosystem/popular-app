@@ -60,7 +60,7 @@ const FOTOS_REFRIGERANTES = [
   { test: /coca-cola lata 350ml/i, url: "https://gbarbosa.vtexassets.com/arquivos/ids/221004/6553621106598519a772ee8d.jpg?v=638355602138730000", alt: "Coca-Cola Original lata 350ml" },
   { test: /coca-cola 1 litro/i, url: "https://www.pontocertoconveniencia.com.br/media/catalog/product/c/o/coca-litro-vidro.jpg", alt: "Coca-Cola 1 litro" },
   { test: /coca-cola 2 litros/i, url: "https://andinacocacola.vtexassets.com/arquivos/ids/158758-800-auto?aspect=true&height=auto&v=639156020671730000&width=800", alt: "Coca-Cola Original 2 litros PET" },
-  { test: /kuat/i, url: "https://www.extramercado.com.br/img/uploads/1/22/33246022.png", alt: "Kuat Guaraná 2 litros" },
+  { test: /kuat/i, url: "https://supermercadosimperatriz.vteximg.com.br/arquivos/ids/212019-1000-1000/7894900911510-preview-Photoroom.png?v=639015083306130000", alt: "Kuat Guaraná 2 litros" },
   { test: /monster/i, url: "https://andinacocacola.vtexassets.com/arquivos/ids/158541-800-auto?aspect=true&height=auto&v=639094449074100000&width=800", alt: "Monster Energy Green 473ml" },
 ];
 
