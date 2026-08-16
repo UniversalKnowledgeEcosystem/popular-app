@@ -73,11 +73,7 @@ function RefrigeranteRealista({ nome }: { nome: string }) {
   return (
     <div className="h-32 w-full flex flex-col items-center justify-end" title={foto.alt}>
       <svg width="98" height={altura} viewBox="0 0 100 120" className="overflow-visible drop-shadow-[0_10px_12px_rgba(0,0,0,.6)]" role="img" aria-label={foto.alt}>
-        <defs>
-          <filter id={filtro} colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 0 3" />
-          </filter>
-        </defs>
+        <defs><filter id={filtro} colorInterpolationFilters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 0 3" /></filter></defs>
         <image href={foto.url} x="0" y="0" width="100" height="120" preserveAspectRatio="xMidYMid meet" filter={`url(#${filtro})`} />
       </svg>
       <span className="text-[10px] font-black text-zinc-400 mt-1">{volume >= 1000 ? `${volume / 1000}L` : `${volume}ml`}</span>
@@ -87,9 +83,7 @@ function RefrigeranteRealista({ nome }: { nome: string }) {
 
 function IconeProduto({ item }: { item: Item }) {
   if (item.categoria === "Bebidas") return <RefrigeranteRealista nome={item.nome} />;
-  if (!["Sucos", "Açaí", "Milk Shakes"].includes(item.categoria)) {
-    return <div className="text-6xl h-28 flex items-center justify-center">{item.emoji}</div>;
-  }
+  if (!["Sucos", "Açaí", "Milk Shakes"].includes(item.categoria)) return <div className="text-6xl h-28 flex items-center justify-center">{item.emoji}</div>;
   const volume = volumeDoProduto(item.nome);
   const escala = Math.max(.9, Math.min(1.55, .78 + volume / 1700));
   const largura = Math.round(42 * escala);
@@ -102,9 +96,7 @@ function IconeProduto({ item }: { item: Item }) {
   return (
     <div className="h-32 flex flex-col items-center justify-center">
       <div className="relative flex items-center justify-center" style={{ width: largura + 12, height: altura + 12 }}>
-        <div className="relative border-2 border-white/70 shadow-lg flex items-center justify-center overflow-hidden" style={{ width: largura, height: altura, background: `linear-gradient(to top,${cor} 0%,${cor} 74%,rgba(255,255,255,.2) 74%)`, borderRadius: "5px 5px 12px 12px", clipPath: "polygon(8% 0,92% 0,82% 100%,18% 100%)" }}>
-          <span style={{ fontSize: Math.max(18, Math.round(21 * escala)) }}>{simbolo}</span>
-        </div>
+        <div className="relative border-2 border-white/70 shadow-lg flex items-center justify-center overflow-hidden" style={{ width: largura, height: altura, background: `linear-gradient(to top,${cor} 0%,${cor} 74%,rgba(255,255,255,.2) 74%)`, borderRadius: "5px 5px 12px 12px", clipPath: "polygon(8% 0,92% 0,82% 100%,18% 100%)" }}><span style={{ fontSize: Math.max(18, Math.round(21 * escala)) }}>{simbolo}</span></div>
         <div className="absolute -top-1 h-2 rounded-full bg-white/80" style={{ width: Math.round(largura * .9) }} />
       </div>
       <span className="text-[10px] font-black text-zinc-400 mt-1">{volume >= 1000 ? `${volume / 1000}L` : `${volume}ml`}</span>
@@ -128,10 +120,7 @@ function C() {
   useEffect(() => {
     try { setFav(JSON.parse(localStorage.getItem(FAV) || "[]")); } catch {}
     const c = params.get("categoria");
-    if (c && categorias.includes(c)) {
-      setCategoria(c);
-      setTimeout(() => document.getElementById(slugCategoria(c))?.scrollIntoView({ behavior: "smooth", block: "start" }), 250);
-    }
+    if (c && categorias.includes(c)) setCategoria(c);
     fetch("/api/cardapio", { cache: "no-store" }).then(r => r.json()).then(j => setCfg(j.config || [])).catch(() => {});
   }, [params]);
 
@@ -152,18 +141,21 @@ function C() {
 
   const q = busca.trim().toLowerCase();
   const itensVisiveis = itens.filter(i => !q || i.nome.toLowerCase().includes(q));
-  const secoes = [
-    ...(fav.length ? [{ nome: "Favoritos", itens: itensVisiveis.filter(i => fav.includes(i.id)) }] : []),
-    ...ordemSecoes.map(nome => ({ nome, itens: itensVisiveis.filter(i => i.categoria === nome) })),
-  ].filter(s => s.itens.length > 0);
+  const favoritosVisiveis = itensVisiveis.filter(i => fav.includes(i.id));
+  const secoes = categoria === "Favoritos"
+    ? (favoritosVisiveis.length ? [{ nome: "Favoritos", itens: favoritosVisiveis }] : [])
+    : [
+        ...(fav.length ? [{ nome: "Favoritos", itens: favoritosVisiveis }] : []),
+        ...ordemSecoes.map(nome => ({ nome, itens: itensVisiveis.filter(i => i.categoria === nome) })),
+      ].filter(s => s.itens.length > 0);
 
   function irPara(c: string) {
     setCategoria(c);
-    if (c === "Todos") {
+    if (c === "Todos" || c === "Favoritos") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    document.getElementById(slugCategoria(c))?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => document.getElementById(slugCategoria(c))?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
 
   function favorito(id: number) {
@@ -206,10 +198,7 @@ function C() {
   return <main className="min-h-screen bg-black text-white pb-40">
     <div className="sticky top-0 z-40 bg-black/95 border-b border-zinc-800 p-4 backdrop-blur">
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-start">
-          <div><p className="text-yellow-400 text-xs font-black">CARDÁPIO ATUALIZADO</p><h1 className="text-2xl font-black">Popular</h1></div>
-          <Link href="/" className="text-sm text-zinc-300">Início</Link>
-        </div>
+        <div className="flex justify-between items-start"><div><p className="text-yellow-400 text-xs font-black">CARDÁPIO ATUALIZADO</p><h1 className="text-2xl font-black">Popular</h1></div><Link href="/" className="text-sm text-zinc-300">Início</Link></div>
         <input value={busca} onChange={e => setBusca(e.target.value)} placeholder="🔎 O que você quer comer?" className="w-full bg-zinc-900 p-3 rounded-xl mt-3 outline-none focus:ring-2 focus:ring-yellow-400" />
         <div className="flex gap-2 overflow-x-auto pt-3 pb-1 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categorias.map(c => <button key={c} onClick={() => irPara(c)} className={`snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-bold transition ${categoria === c ? "bg-yellow-400 text-black" : "bg-zinc-900 text-zinc-200"}`}>{c}</button>)}
@@ -219,44 +208,24 @@ function C() {
 
     <div className="max-w-5xl mx-auto py-3">
       {secoes.map(secao => <section key={secao.nome} id={slugCategoria(secao.nome)} className="scroll-mt-40 py-4">
-        <div className="px-4 mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-[11px] uppercase tracking-[.18em] text-yellow-400 font-black">Explore</p>
-            <h2 className="text-2xl font-black">{secao.nome}</h2>
-          </div>
-          <span className="text-xs text-zinc-400 whitespace-nowrap">Arraste →</span>
-        </div>
-
+        <div className="px-4 mb-3 flex items-end justify-between gap-3"><div><p className="text-[11px] uppercase tracking-[.18em] text-yellow-400 font-black">Explore</p><h2 className="text-2xl font-black">{secao.nome}</h2></div><span className="text-xs text-zinc-400 whitespace-nowrap">Arraste →</span></div>
         <div className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scroll-px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {secao.itens.map(i => <article key={i.id} className={`relative snap-start shrink-0 w-[76vw] max-w-[300px] min-h-[260px] rounded-3xl border p-4 flex flex-col ${i.disponivel ? "bg-gradient-to-b from-zinc-900 to-zinc-950 border-zinc-800" : "bg-zinc-950 border-zinc-900 opacity-60"}`}>
+          {secao.itens.map(i => <article key={i.id} className={`relative snap-start shrink-0 w-[68vw] max-w-[270px] min-h-[245px] rounded-3xl border p-3.5 flex flex-col ${i.disponivel ? "bg-gradient-to-b from-zinc-900 to-zinc-950 border-zinc-800" : "bg-zinc-950 border-zinc-900 opacity-60"}`}>
             {i.destaque && <span className="absolute top-3 left-3 z-10 bg-yellow-400 text-black text-[10px] font-black px-2 py-1 rounded-full">🔥 DESTAQUE</span>}
             <button onClick={() => favorito(i.id)} className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/55 backdrop-blur flex items-center justify-center text-lg" aria-label="Favoritar">{fav.includes(i.id) ? "❤️" : "🤍"}</button>
-
-            <div className="rounded-2xl bg-black/35 border border-white/5 flex items-center justify-center min-h-36 mb-3 overflow-hidden">
-              <IconeProduto item={i} />
-            </div>
-
-            <div className="flex-1">
-              <h3 className="font-black text-base leading-tight pr-8">{i.nome}</h3>
-              {!i.disponivel ? <p className="text-red-400 font-black text-xs mt-2">● ESGOTADO NO MOMENTO</p> : <div className="mt-2 flex items-center flex-wrap gap-2">
-                {i.normal && <span className="text-xs text-zinc-500 line-through">{formatPrice(i.normal)}</span>}
-                <b className={`text-lg ${i.normal ? "text-green-400" : "text-yellow-400"}`}>{formatPrice(i.preco)}</b>
-                {i.normal && <span className="text-[9px] bg-green-500 text-black font-black px-2 py-1 rounded-full">OFERTA</span>}
-              </div>}
-            </div>
-
-            <button disabled={!i.disponivel} onClick={() => abrir(i)} className={`mt-3 w-full h-11 rounded-xl font-black flex items-center justify-center gap-2 ${i.disponivel ? "bg-yellow-400 text-black active:scale-[.98]" : "bg-zinc-800 text-zinc-600"}`}>{i.disponivel ? <><span className="text-xl">+</span><span>Adicionar</span></> : "Indisponível"}</button>
+            <div className="rounded-2xl bg-black/35 border border-white/5 flex items-center justify-center min-h-32 mb-3 overflow-hidden"><IconeProduto item={i} /></div>
+            <div className="flex-1"><h3 className="font-black text-[15px] leading-tight pr-8">{i.nome}</h3>{!i.disponivel ? <p className="text-red-400 font-black text-xs mt-2">● ESGOTADO NO MOMENTO</p> : <div className="mt-2 flex items-center flex-wrap gap-2">{i.normal && <span className="text-xs text-zinc-500 line-through">{formatPrice(i.normal)}</span>}<b className={`text-lg ${i.normal ? "text-green-400" : "text-yellow-400"}`}>{formatPrice(i.preco)}</b>{i.normal && <span className="text-[9px] bg-green-500 text-black font-black px-2 py-1 rounded-full">OFERTA</span>}</div>}</div>
+            <button disabled={!i.disponivel} onClick={() => abrir(i)} className={`mt-3 w-full h-10 rounded-xl font-black flex items-center justify-center gap-2 ${i.disponivel ? "bg-yellow-400 text-black active:scale-[.98]" : "bg-zinc-800 text-zinc-600"}`}>{i.disponivel ? <><span className="text-xl">+</span><span>Adicionar</span></> : "Indisponível"}</button>
           </article>)}
         </div>
       </section>)}
 
-      {!secoes.length && <div className="px-4 py-16 text-center text-zinc-400"><div className="text-4xl mb-3">🔎</div><b>Nenhum item encontrado</b><p className="text-sm mt-1">Tente buscar por outro nome.</p></div>}
+      {categoria === "Favoritos" && !favoritosVisiveis.length && <div className="px-6 py-20 text-center"><div className="text-5xl mb-4">🤍</div><h2 className="text-xl font-black">Nenhum favorito ainda</h2><p className="text-sm text-zinc-400 mt-2">Toque no coração de um produto para ele aparecer aqui.</p></div>}
+      {categoria !== "Favoritos" && !secoes.length && <div className="px-4 py-16 text-center text-zinc-400"><div className="text-4xl mb-3">🔎</div><b>Nenhum item encontrado</b><p className="text-sm mt-1">Tente buscar por outro nome.</p></div>}
     </div>
 
     {toast && <div className="fixed top-4 z-[90] left-4 right-4 max-w-sm mx-auto bg-green-500 text-black p-3 rounded-xl text-center font-black shadow-xl">{toast}</div>}
-
     {edit && <div className="fixed inset-0 z-[80] bg-black/80 p-4 overflow-y-auto"><div className="max-w-md mx-auto bg-zinc-900 rounded-3xl p-5 my-8"><div className="flex justify-between"><h2 className="text-2xl font-black">{edit.nome}</h2><button onClick={() => setEdit(null)}>✕</button></div>{/^big\b/i.test(edit.nome) && <div className="grid grid-cols-2 gap-2 mt-4">{["Cheddar", "Catupiry"].map(x => <button key={x} onClick={() => setCreme(x)} className={`p-3 rounded-xl font-bold ${creme === x ? "bg-yellow-400 text-black" : "bg-zinc-800"}`}>{x}</button>)}</div>}<section className="mt-5"><b>🚫 Retirar ingredientes</b><div className="flex flex-wrap gap-2 mt-2">{ing.map(x => <button key={x} onClick={() => setSem(sem.includes(x) ? sem.filter(y => y !== x) : [...sem, x])} className={`px-3 py-2 rounded-xl text-xs ${sem.includes(x) ? "bg-red-500" : "bg-zinc-800"}`}>{x}</button>)}</div></section><section className="mt-5"><b>➕ Adicionais</b>{extras.map(x => <button key={x.n} onClick={() => setAdd(add.includes(x.n) ? add.filter(y => y !== x.n) : [...add, x.n])} className={`w-full flex justify-between p-3 rounded-xl mt-2 ${add.includes(x.n) ? "bg-green-500 text-black" : "bg-zinc-800"}`}><span>{x.n}</span><b>+ {formatPrice(x.p)}</b></button>)}</section><button onClick={montar} className="w-full bg-yellow-400 text-black p-4 rounded-xl font-black mt-5">Adicionar ao carrinho</button></div></div>}
-
     {quantidadeTotal > 0 && <Link href="/carrinho" className="fixed bottom-20 left-4 right-4 max-w-md mx-auto bg-yellow-400 text-black rounded-2xl p-4 flex justify-between font-black shadow-2xl"><span>🛒 {quantidadeTotal} itens</span><span>{formatPrice(total)} →</span></Link>}
   </main>;
 }
