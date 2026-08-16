@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+@media (max-width: 640px) {
+  main section:has(.grid.grid-cols-6.gap-1.mt-3) {
+    padding: 1rem;
+  }
+
+  main .grid.grid-cols-6.gap-1.mt-3 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  main .grid.grid-cols-6.gap-1.mt-3 > div {
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1;
+    justify-self: center;
+    font-size: 0.625rem;
+  }
+}
