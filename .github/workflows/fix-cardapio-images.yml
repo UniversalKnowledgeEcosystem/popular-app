@@ -1,0 +1,47 @@
+name: Corrigir imagens do cardapio
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-cardapio-images.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aplicar imagens reais aos lanches
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('app/cardapio/page.tsx')
+          s = p.read_text()
+          old_type = 'type Item = { id:number; nome:string; descricao:string; preco:number; categoria:string; emoji:string; disponivel:boolean; destaque:boolean; normal?:number };'
+          new_type = 'type Item = { id:number; nome:string; descricao:string; preco:number; categoria:string; emoji:string; imagem?:string; disponivel:boolean; destaque:boolean; normal?:number };'
+          if old_type in s:
+              s = s.replace(old_type, new_type, 1)
+          old_map = 'categoria:p.categoria==="Fritas"||p.categoria==="Batatas"?"Fritas":"Lanches",emoji:p.categoria==="Fritas"||p.categoria==="Batatas"?"🍟":"🍔",disponivel:true'
+          new_map = 'categoria:p.categoria==="Fritas"||p.categoria==="Batatas"?"Fritas":"Lanches",emoji:p.categoria==="Fritas"||p.categoria==="Batatas"?"🍟":"🍔",imagem:p.imagem,disponivel:true'
+          if old_map in s:
+              s = s.replace(old_map, new_map, 1)
+          marker = 'function IconeProduto({item}:{item:Item}){'
+          insertion = 'function IconeProduto({item}:{item:Item}){if(item.categoria==="Lanches"&&item.imagem)return <div className="h-32 w-full flex items-center justify-center"><img src={item.imagem} alt={item.nome} className="w-full h-full scale-110 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,.55)]"/></div>;'
+          if marker in s and insertion not in s:
+              s = s.replace(marker, insertion, 1)
+          p.write_text(s)
+          PY
+      - name: Validar alteracao
+        run: |
+          grep -q 'imagem:p.imagem' app/cardapio/page.tsx
+          grep -q 'item.categoria==="Lanches"&&item.imagem' app/cardapio/page.tsx
+      - name: Commit da correcao
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/cardapio/page.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix: exibe PNGs reais dos lanches no cardapio'
+          git push
