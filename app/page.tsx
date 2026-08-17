@@ -7,10 +7,14 @@ import FeaturedProducts from "./components/FeaturedProducts";
 import LoyaltyCard from "./components/LoyaltyCard";
 import LocationCard from "./components/LocationCard";
 import StoreStatus from "./components/StoreStatus";
+import BiblicalWelcome from "./components/BiblicalWelcome";
+import WordOfDay from "./components/WordOfDay";
 
 export default function Home(){return <main className="min-h-screen bg-zinc-950 text-white pb-32">
+ <BiblicalWelcome/>
  <Header/>
  <StoreStatus/>
+ <WordOfDay/>
  <section className="px-6 mt-5 max-w-5xl mx-auto">
   <div className="grid grid-cols-2 gap-3">
    <Link href="/cardapio" className="popular-primary col-span-2 rounded-3xl p-5 flex items-center justify-between shadow-xl active:scale-[.99] transition"><div><p className="text-xs font-black uppercase opacity-60">Bateu a fome?</p><h2 className="text-2xl font-black">🍔 Fazer pedido</h2><p className="text-sm font-semibold mt-1">Personalize seu lanche em poucos toques</p></div><span className="text-3xl">→</span></Link>
