@@ -14,8 +14,8 @@ export const products: Product[] = [
   { id: 11, nome: "Big Popular", descricao: "Pão, carne, frango, ovo, queijo, presunto, bacon, milho, alface, tomate, salsicha, batata palha. Cheddar ou catupiry.", preco: 19, imagem: "/burgers/bacon.jpg", categoria: "Hambúrgueres" },
   { id: 12, nome: "Big Fome", descricao: "Pão, 2 carnes, ovo, queijo, presunto, salsicha, milho, alface, tomate, batata palha. Cheddar ou catupiry.", preco: 22, imagem: "/burgers/bacon.jpg", categoria: "Hambúrgueres" },
   { id: 13, nome: "Big Duplo", descricao: "Pão, 2 carnes, 2 ovos, salsicha, queijo, presunto, milho, alface, tomate, batata palha. Cheddar ou catupiry.", preco: 24, imagem: "/burgers/bacon.jpg", categoria: "Hambúrgueres" },
-  { id: 14, nome: "Batata Premium Média", descricao: "Batata com cheddar, bacon e queijo derretido.", preco: 20, imagem: "/burgers/bacon.jpg", categoria: "Batatas" },
-  { id: 15, nome: "Batata Premium Grande", descricao: "Batata com cheddar, bacon e queijo derretido.", preco: 25, imagem: "/burgers/bacon.jpg", categoria: "Batatas" },
-  { id: 16, nome: "Batata Simples Média", descricao: "Porção média de batata frita.", preco: 13, imagem: "/burgers/bacon.jpg", categoria: "Batatas" },
-  { id: 17, nome: "Batata Simples Grande", descricao: "Porção grande de batata frita.", preco: 20, imagem: "/burgers/bacon.jpg", categoria: "Batatas" },
+  { id: 14, nome: "Fritas Premium Média", descricao: "Fritas com cheddar, bacon e queijo derretido.", preco: 20, imagem: "/burgers/bacon.jpg", categoria: "Fritas" },
+  { id: 15, nome: "Fritas Premium Grande", descricao: "Fritas com cheddar, bacon e queijo derretido.", preco: 25, imagem: "/burgers/bacon.jpg", categoria: "Fritas" },
+  { id: 16, nome: "Fritas Simples Média", descricao: "Porção média de fritas.", preco: 13, imagem: "/burgers/bacon.jpg", categoria: "Fritas" },
+  { id: 17, nome: "Fritas Simples Grande", descricao: "Porção grande de fritas.", preco: 20, imagem: "/burgers/bacon.jpg", categoria: "Fritas" },
 ];
