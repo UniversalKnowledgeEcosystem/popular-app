@@ -1,7 +1,7 @@
 import type { Category } from "../types/category";
 export const categories: Category[] = [
  {id:1,titulo:"Lanches",emoji:"🍔",href:"/cardapio?categoria=Lanches"},
- {id:2,titulo:"Batatas",emoji:"🍟",href:"/cardapio?categoria=Batatas"},
+ {id:2,titulo:"Fritas",emoji:"🍟",href:"/cardapio?categoria=Batatas"},
  {id:3,titulo:"Sorvetes",emoji:"🍦",href:"/cardapio?categoria=Sorvetes"},
  {id:4,titulo:"Açaí",emoji:"🫐",href:"/cardapio?categoria=Açaí"},
  {id:5,titulo:"Bebidas",emoji:"🥤",href:"/cardapio?categoria=Bebidas"},
