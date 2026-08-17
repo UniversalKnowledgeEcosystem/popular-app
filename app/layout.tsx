@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import BottomNavigation from "./components/BottomNavigation";
 import PWARegister from "./components/PWARegister";
+import ProductImageEnhancer from "./components/ProductImageEnhancer";
 import { CartProvider } from "./context/CartContext";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full bg-zinc-950 text-white selection:bg-yellow-400 selection:text-black">
         <PWARegister />
+        <ProductImageEnhancer />
         <CartProvider>
           {children}
           <BottomNavigation />
