@@ -4,6 +4,7 @@ import "./globals.css";
 import BottomNavigation from "./components/BottomNavigation";
 import PWARegister from "./components/PWARegister";
 import ProductImageEnhancer from "./components/ProductImageEnhancer";
+import WelcomeFaithSplash from "./components/WelcomeFaithSplash";
 import { CartProvider } from "./context/CartContext";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-full bg-zinc-950 text-white selection:bg-yellow-400 selection:text-black">
         <PWARegister />
         <ProductImageEnhancer />
+        <WelcomeFaithSplash />
         <CartProvider>
           {children}
           <BottomNavigation />
