@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
@@ -12,6 +13,13 @@ import BiblicalWelcome from "./components/BiblicalWelcome";
 export default function Home(){return <main className="min-h-screen bg-zinc-950 text-white pb-32">
  <BiblicalWelcome/>
  <Header/>
+ <section className="px-6 mt-3 max-w-5xl mx-auto">
+  <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-black min-h-[230px] sm:min-h-[300px] shadow-2xl">
+   <Image src="/MASCOTE%20POPULAR.jpeg" alt="Mascote da Popular Hambúrgueria e Sorveteria" fill priority sizes="(max-width: 768px) 100vw, 1024px" className="object-cover object-center"/>
+   <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/90 to-transparent"/>
+   <div className="absolute bottom-4 left-4 right-4"><p className="text-yellow-400 text-xs font-black uppercase tracking-wider">Popular Hambúrgueria e Sorveteria</p><p className="text-white font-black text-lg">Seu pedido, do seu jeito 🍔</p></div>
+  </div>
+ </section>
  <StoreStatus/>
  <section className="px-6 mt-5 max-w-5xl mx-auto">
   <div className="grid grid-cols-2 gap-3">
