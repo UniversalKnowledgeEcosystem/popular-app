@@ -1,8 +1,8 @@
 import type { Product } from "../types/product";
 
 export const products: Product[] = [
-  { id: 1, nome: "Misto Quente", descricao: "Pão, queijo, presunto.", preco: 7, imagem: "/misto%20quente.png?foto=misto-quente-20260817-v2", categoria: "Hambúrgueres" },
-  { id: 2, nome: "Misto Especial", descricao: "Pão, queijo, presunto, alface, tomate, maionese.", preco: 9, imagem: "/misto%20especial.png?foto=misto-especial-20260817-v2", categoria: "Hambúrgueres" },
+  { id: 1, nome: "Misto Quente", descricao: "Pão, queijo, presunto.", preco: 7, imagem: "/misto quente.png", categoria: "Hambúrgueres" },
+  { id: 2, nome: "Misto Especial", descricao: "Pão, queijo, presunto, alface, tomate, maionese.", preco: 9, imagem: "/misto especial.png", categoria: "Hambúrgueres" },
   { id: 3, nome: "X-Burguer", descricao: "Pão, carne, ovo, queijo, alface e tomate.", preco: 10, imagem: "/hamburguer 3.png", categoria: "Hambúrgueres" },
   { id: 4, nome: "X-Salada", descricao: "Pão, carne, ovo, queijo, presunto, milho, batata palha, alface e tomate.", preco: 12, imagem: "/hamburguer 4.png", categoria: "Hambúrgueres" },
   { id: 5, nome: "X-Frango", descricao: "Pão, frango, ovo, queijo, milho, alface, batata palha.", preco: 13, imagem: "/hamburguer 5.png", categoria: "Hambúrgueres" },
