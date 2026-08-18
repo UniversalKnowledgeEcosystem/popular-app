@@ -36,7 +36,7 @@ export default function WelcomeFaithSplash() {
     <div className="fixed inset-0 z-[9999] bg-zinc-950 flex items-center justify-center p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-label="Mensagem de fé de boas-vindas">
       <div className="w-full max-w-sm text-center py-6">
         <img
-          src="/mascote%20oficial%20novo.png"
+          src="/mascote%20oficial%20novo.png?v=20260818-blue-v2"
           alt="Mascote oficial da Popular"
           className="mx-auto h-40 max-w-full w-auto object-contain"
         />
