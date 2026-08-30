@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { House, ShoppingCart, User, UtensilsCrossed } from "lucide-react";
+import { House, ShoppingCart, User, Shirt } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCart } from "../context/CartContext";
 
 const links = [
   { href: "/", label: "Início", Icon: House },
-  { href: "/cardapio", label: "Cardápio", Icon: UtensilsCrossed },
+  { href: "/cardapio", label: "Catálogo", Icon: Shirt },
   { href: "/carrinho", label: "Carrinho", Icon: ShoppingCart },
   { href: "/perfil", label: "Perfil", Icon: User },
 ];
@@ -25,20 +25,10 @@ export default function BottomNavigation() {
         {links.map(({ href, label, Icon }) => {
           const ativo = href === "/" ? pathname === href : pathname.startsWith(href);
           return (
-            <Link
-              key={href}
-              href={href}
-              aria-label={label}
-              aria-current={ativo ? "page" : undefined}
-              className={`relative min-h-14 rounded-2xl px-1 py-2 flex flex-col items-center justify-center gap-1 transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${ativo ? "bg-yellow-400/12 text-yellow-400" : "text-zinc-400"}`}
-            >
+            <Link key={href} href={href} aria-label={label} aria-current={ativo ? "page" : undefined} className={`relative min-h-14 rounded-2xl px-1 py-2 flex flex-col items-center justify-center gap-1 transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 ${ativo ? "bg-rose-500/10 text-rose-500" : "text-zinc-400"}`}>
               <Icon size={24} strokeWidth={ativo ? 2.4 : 2} />
               <span className="text-[11px] leading-none font-bold">{label}</span>
-              {href === "/carrinho" && quantidade > 0 && (
-                <span aria-label={`${quantidade} item${quantidade === 1 ? "" : "s"} no carrinho`} className="absolute right-2 top-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-black flex items-center justify-center border-2 border-zinc-950">
-                  {quantidade > 99 ? "99+" : quantidade}
-                </span>
-              )}
+              {href === "/carrinho" && quantidade > 0 && <span aria-label={`${quantidade} itens no carrinho`} className="absolute right-2 top-1 min-w-5 h-5 px-1 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center border-2 border-zinc-950">{quantidade > 99 ? "99+" : quantidade}</span>}
             </Link>
           );
         })}
