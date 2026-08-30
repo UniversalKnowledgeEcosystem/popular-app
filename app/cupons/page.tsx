@@ -1,33 +1,11 @@
-const cupons = [
-  { nome: "POPULAR10", descricao: "10% de desconto no pedido" },
-  { nome: "SORVETE5", descricao: "R$ 5,00 off em sorvetes" },
-  { nome: "FRETEGRATIS", descricao: "Entrega grátis acima de R$ 40" },
+"use client";
+import Link from "next/link";
+import {useEffect,useState} from "react";
+const cupons=[
+ {nome:"MERCADO5",descricao:"R$ 5 de desconto em compras do protótipo",regra:"Use no checkout demonstrativo.",cor:"bg-emerald-100 text-emerald-800"},
+ {nome:"FRETEGRATIS",descricao:"Frete grátis no pedido demonstrativo",regra:"Válido quando a opção Entrega estiver selecionada.",cor:"bg-blue-100 text-blue-800"},
+ {nome:"HORTI10",descricao:"10% em hortifruti selecionado",regra:"Cupom ilustrativo para campanhas por categoria.",cor:"bg-orange-100 text-orange-800"},
+ {nome:"CLUBE15",descricao:"Oferta especial para membros do clube",regra:"Exemplo de cupom personalizado para fidelidade.",cor:"bg-amber-100 text-amber-800"},
 ];
-
-export default function Cupons() {
-  return (
-    <main className="min-h-screen bg-zinc-950 text-white px-6 py-16">
-      <h1 className="text-4xl font-black text-yellow-400 text-center">
-        🎁 Cupons
-      </h1>
-
-      <div className="max-w-4xl mx-auto mt-12 grid gap-6">
-        {cupons.map((cupom) => (
-          <div
-            key={cupom.nome}
-            className="bg-zinc-900 rounded-2xl p-6 flex justify-between items-center"
-          >
-            <div>
-              <h2 className="text-2xl font-bold">{cupom.nome}</h2>
-              <p className="text-zinc-400">{cupom.descricao}</p>
-            </div>
-
-            <button className="bg-yellow-400 text-black px-5 py-3 rounded-xl font-bold">
-              Usar
-            </button>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
-}
+const KEY="mercado_cupons_ativos";
+export default function Cupons(){const[ativos,setAtivos]=useState<string[]>([]);useEffect(()=>{try{setAtivos(JSON.parse(localStorage.getItem(KEY)||"[]"))}catch{}},[]);function toggle(c:string){const n=ativos.includes(c)?ativos.filter(x=>x!==c):[...ativos,c];setAtivos(n);localStorage.setItem(KEY,JSON.stringify(n))}return <main className="min-h-screen bg-[#f6f7f9] text-zinc-900 px-4 py-6 pb-28"><div className="max-w-3xl mx-auto"><div className="flex items-center justify-between"><div><p className="text-xs font-black uppercase text-emerald-700">Mercado Fácil</p><h1 className="text-3xl font-black">Cupons e ofertas</h1><p className="text-sm text-zinc-500 mt-1">Ative cupons antes de comprar.</p></div><Link href="/" className="text-sm font-bold text-emerald-700">Início</Link></div><div className="mt-5 space-y-3">{cupons.map(c=><article key={c.nome} className="bg-white border border-zinc-200 rounded-3xl p-5 shadow-sm"><div className="flex justify-between gap-3"><div><span className={`inline-block px-3 py-1 rounded-full text-[11px] font-black ${c.cor}`}>{c.nome}</span><h2 className="font-black text-lg mt-3">{c.descricao}</h2><p className="text-sm text-zinc-500 mt-1">{c.regra}</p></div><button onClick={()=>toggle(c.nome)} className={`self-start px-4 py-3 rounded-xl font-black ${ativos.includes(c.nome)?"bg-zinc-900 text-white":"bg-emerald-700 text-white"}`}>{ativos.includes(c.nome)?"Ativado ✓":"Ativar"}</button></div></article>)}</div><div className="mt-5 bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm text-amber-900"><b>Protótipo:</b> MERCADO5 e FRETEGRATIS já funcionam no checkout. Os demais mostram como campanhas futuras podem aparecer.</div></div></main>}
