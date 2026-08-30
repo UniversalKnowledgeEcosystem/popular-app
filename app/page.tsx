@@ -1,31 +1,53 @@
-import Image from "next/image";
 import Link from "next/link";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import Banner from "./components/Banner";
-import Categories from "./components/Categories";
-import FeaturedProducts from "./components/FeaturedProducts";
-import LoyaltyCard from "./components/LoyaltyCard";
-import LocationCard from "./components/LocationCard";
-import StoreStatus from "./components/StoreStatus";
-import BiblicalWelcome from "./components/BiblicalWelcome";
 
-export default function Home(){return <main className="min-h-screen bg-zinc-950 text-white pb-32">
- <BiblicalWelcome/>
- <Header/>
- <StoreStatus/>
- <section className="px-6 mt-3 max-w-5xl mx-auto">
-  <div className="grid grid-cols-2 gap-3">
-   <Link href="/cardapio" className="popular-primary col-span-2 rounded-3xl p-5 flex items-center justify-between shadow-xl active:scale-[.99] transition"><div><p className="text-xs font-black uppercase opacity-60">Bateu a fome?</p><h2 className="text-2xl font-black">🍔 Fazer pedido</h2><p className="text-sm font-semibold mt-1">Personalize seu lanche em poucos toques</p></div><span className="text-3xl">→</span></Link>
-   <Link href="/fidelidade" className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><span className="text-2xl">⭐</span><h3 className="font-black mt-2">Clube Popular</h3><p className="text-xs text-zinc-400 mt-1">Selos, prêmio e progresso</p></Link>
-   <Link href="/biblioteca/pedidos" className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><span className="text-2xl">🔁</span><h3 className="font-black mt-2">Meus pedidos</h3><p className="text-xs text-zinc-400 mt-1">Acompanhe e consulte anteriores</p></Link>
-   <Link href="/momento-de-fe" className="relative col-span-2 min-h-[104px] overflow-hidden bg-zinc-900 border border-yellow-400/20 rounded-2xl pl-4 pr-[92px] py-4 flex items-center active:scale-[.99] transition"><div className="flex items-center gap-3 relative z-10"><span className="text-2xl">🙏</span><div><p className="text-yellow-400 text-[10px] font-black tracking-wider">UM MOMENTO ESPECIAL</p><h3 className="font-black text-lg">Momento de Fé</h3><p className="text-xs text-zinc-400 mt-1">Palavra, oração, família, força e esperança</p></div></div><div className="absolute right-1 bottom-0 w-[82px] h-[100px]"><Image src="/mascote%20oficial%20novo.png" alt="Mascote oficial da Popular" fill sizes="82px" className="object-contain object-bottom"/></div></Link>
-  </div>
- </section>
- <SearchBar/>
- <section className="px-6 mt-6 max-w-5xl mx-auto"><Banner/></section>
- <Categories/><FeaturedProducts/>
- <section className="px-6 max-w-5xl mx-auto"><div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 flex gap-4 items-center"><div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center text-2xl">⚡</div><div><h3 className="font-black">Mais rápido a cada pedido</h3><p className="text-sm text-zinc-400 mt-1">Favoritos, dados salvos no aparelho, personalização e acompanhamento automático.</p></div></div></section>
- <LoyaltyCard/><LocationCard/>
- <footer className="px-6 mt-8 max-w-5xl mx-auto text-center"><div className="border-t border-zinc-900 pt-5"><p className="text-xs text-zinc-600">Popular Hambúrgueria e Sorveteria • Since 2017</p></div></footer>
- </main>}
+const categories = [
+  ["🍎","Hortifruti"],["🥩","Carnes"],["🥖","Padaria"],["🧀","Frios"],["🥛","Laticínios"],["🥫","Mercearia"],["🥤","Bebidas"],["🧼","Limpeza"],["🧴","Higiene"],["🧊","Congelados"],["🐶","Pet"],["👶","Bebê"]
+];
+
+const products = [
+  {name:"Arroz Tipo 1 5kg", price:"R$ 27,90", old:"R$ 31,90", club:"R$ 25,90", tag:"OFERTA"},
+  {name:"Feijão Carioca 1kg", price:"R$ 7,49", old:"R$ 8,99", club:"R$ 6,99", tag:"CLUBE"},
+  {name:"Leite Integral 1L", price:"R$ 4,79", old:"R$ 5,29", club:"R$ 4,49", tag:"MAIS VENDIDO"},
+  {name:"Café Torrado 500g", price:"R$ 19,90", old:"R$ 22,90", club:"R$ 18,49", tag:"OFERTA"},
+  {name:"Banana Prata kg", price:"R$ 4,49", old:"R$ 5,49", club:"R$ 4,19", tag:"HORTIFRUTI"},
+  {name:"Refrigerante 2L", price:"R$ 8,99", old:"R$ 10,49", club:"R$ 8,49", tag:"BEBIDAS"}
+];
+
+export default function Home(){
+  return <main className="min-h-screen bg-[#f6f7f9] text-zinc-900 pb-28">
+    <header className="bg-emerald-700 text-white px-5 pt-6 pb-5 rounded-b-[28px] shadow-sm">
+      <div className="max-w-5xl mx-auto flex items-start justify-between gap-4">
+        <div><p className="text-xs font-bold uppercase tracking-[.18em] text-emerald-100">Supermercado Demo</p><h1 className="text-2xl font-black mt-1">Mercado Fácil</h1><p className="text-sm text-emerald-100 mt-1">Tudo para sua compra em poucos toques</p></div>
+        <Link href="/carrinho" className="bg-white text-emerald-700 px-4 py-3 rounded-2xl font-black shadow">🛒 Carrinho</Link>
+      </div>
+      <div className="max-w-5xl mx-auto mt-5 bg-white rounded-2xl px-4 py-3 text-zinc-500 flex items-center gap-2 shadow-sm"><span>🔎</span><span className="text-sm">Busque arroz, leite, carne, limpeza...</span></div>
+    </header>
+
+    <section className="px-5 mt-5 max-w-5xl mx-auto grid grid-cols-2 gap-3">
+      <div className="col-span-2 bg-amber-100 border border-amber-200 rounded-3xl p-5 flex items-center justify-between gap-4">
+        <div><p className="text-xs font-black text-amber-700 uppercase">Ofertas da semana</p><h2 className="text-2xl font-black mt-1">Economize no carrinho</h2><p className="text-sm text-zinc-600 mt-1">Preços promocionais e vantagens para membros do clube.</p></div><span className="text-5xl">🏷️</span>
+      </div>
+      <Link href="/cupons" className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm"><span className="text-2xl">🎟️</span><h3 className="font-black mt-2">Cupons</h3><p className="text-xs text-zinc-500 mt-1">Ative e economize</p></Link>
+      <Link href="/fidelidade" className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm"><span className="text-2xl">⭐</span><h3 className="font-black mt-2">Clube</h3><p className="text-xs text-zinc-500 mt-1">Preços exclusivos</p></Link>
+      <Link href="/historico" className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm"><span className="text-2xl">🔁</span><h3 className="font-black mt-2">Comprar de novo</h3><p className="text-xs text-zinc-500 mt-1">Repita compras anteriores</p></Link>
+      <Link href="/checkout" className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm"><span className="text-2xl">🚚</span><h3 className="font-black mt-2">Entrega ou retirada</h3><p className="text-xs text-zinc-500 mt-1">Escolha como receber</p></Link>
+    </section>
+
+    <section className="px-5 mt-7 max-w-5xl mx-auto"><div className="flex items-center justify-between"><h2 className="text-xl font-black">Categorias</h2><Link href="/cardapio" className="text-sm font-bold text-emerald-700">Ver todas</Link></div>
+      <div className="grid grid-cols-4 gap-3 mt-3">{categories.map(([icon,name])=><Link href="/cardapio" key={name} className="bg-white border border-zinc-200 rounded-2xl p-3 text-center shadow-sm"><div className="text-2xl">{icon}</div><div className="text-[11px] font-bold mt-2 leading-tight">{name}</div></Link>)}</div>
+    </section>
+
+    <section className="px-5 mt-7 max-w-5xl mx-auto"><div className="flex items-center justify-between"><div><p className="text-xs font-black text-red-600 uppercase">Preço baixo agora</p><h2 className="text-xl font-black">Ofertas em destaque</h2></div><Link href="/cardapio" className="text-sm font-bold text-emerald-700">Ver mais</Link></div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">{products.map(p=><div key={p.name} className="bg-white border border-zinc-200 rounded-3xl p-3 shadow-sm"><div className="aspect-square rounded-2xl bg-gradient-to-br from-emerald-50 to-zinc-100 flex items-center justify-center text-5xl">🛍️</div><div className="mt-3"><span className="inline-block text-[9px] font-black px-2 py-1 rounded-full bg-red-100 text-red-700">{p.tag}</span><h3 className="font-bold text-sm mt-2 min-h-[40px]">{p.name}</h3><p className="text-xs text-zinc-400 line-through mt-1">{p.old}</p><p className="text-xl font-black text-emerald-700">{p.price}</p><p className="text-[11px] font-bold text-amber-700 mt-1">⭐ Clube: {p.club}</p><button className="w-full mt-3 bg-emerald-700 text-white rounded-xl py-2.5 font-black text-sm">Adicionar</button></div></div>)}</div>
+    </section>
+
+    <section className="px-5 mt-7 max-w-5xl mx-auto grid md:grid-cols-2 gap-3">
+      <div className="bg-white border border-zinc-200 rounded-3xl p-5 shadow-sm"><span className="text-3xl">📝</span><h3 className="font-black text-lg mt-2">Minha lista de compras</h3><p className="text-sm text-zinc-500 mt-1">Monte a lista antes de sair de casa e marque os itens conforme compra.</p><button className="mt-4 text-emerald-700 font-black text-sm">Criar lista →</button></div>
+      <div className="bg-white border border-zinc-200 rounded-3xl p-5 shadow-sm"><span className="text-3xl">📱</span><h3 className="font-black text-lg mt-2">Folheto digital</h3><p className="text-sm text-zinc-500 mt-1">Ofertas organizadas por setor sem precisar de papel.</p><button className="mt-4 text-emerald-700 font-black text-sm">Ver ofertas →</button></div>
+    </section>
+
+    <section className="px-5 mt-7 max-w-5xl mx-auto"><div className="bg-emerald-900 text-white rounded-3xl p-5"><p className="text-xs font-black text-emerald-200 uppercase">Experiência completa</p><h2 className="text-xl font-black mt-1">Compra online e loja física no mesmo app</h2><div className="grid grid-cols-2 gap-3 mt-4 text-sm"><div>✅ Catálogo por setor</div><div>✅ Carrinho</div><div>✅ Cupons</div><div>✅ Clube de vantagens</div><div>✅ Entrega/retirada</div><div>✅ Histórico</div><div>✅ Lista de compras</div><div>✅ Ofertas digitais</div></div></div></section>
+
+    <footer className="px-5 mt-8 max-w-5xl mx-auto text-center text-xs text-zinc-400">Protótipo de supermercado criado a partir da base do app Popular.</footer>
+  </main>
+}
