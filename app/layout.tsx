@@ -9,13 +9,14 @@ import { CartProvider } from "./context/CartContext";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const mascotIcon = "/mascote%20oficial%20novo.png";
 
 export const metadata: Metadata = {
   title: "Popular Hambúrgueria e Sorveteria",
   description: "Aplicativo oficial da Popular Hambúrgueria e Sorveteria",
   applicationName: "Popular",
   manifest: "/manifest.webmanifest",
-  icons: { icon: "/logo.png", apple: "/logo.png" },
+  icons: { icon: mascotIcon, apple: mascotIcon, shortcut: mascotIcon },
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Popular" },
   formatDetection: { telephone: true },
 };
