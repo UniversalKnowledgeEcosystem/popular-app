@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import BottomNavigation from "./components/BottomNavigation";
+import IOSInstallHint from "./components/IOSInstallHint";
 import PWARegister from "./components/PWARegister";
 import ProductImageEnhancer from "./components/ProductImageEnhancer";
 import WelcomeFaithSplash from "./components/WelcomeFaithSplash";
@@ -16,9 +17,22 @@ export const metadata: Metadata = {
   description: "Aplicativo oficial da Popular Hambúrgueria e Sorveteria",
   applicationName: "Popular",
   manifest: "/manifest.webmanifest",
-  icons: { icon: mascotIcon, apple: mascotIcon, shortcut: mascotIcon },
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Popular" },
+  icons: {
+    icon: mascotIcon,
+    shortcut: mascotIcon,
+    apple: [{ url: mascotIcon }],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Popular",
+  },
   formatDetection: { telephone: true },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-title": "Popular",
+  },
 };
 
 export const viewport: Viewport = {
@@ -37,6 +51,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <PWARegister />
         <ProductImageEnhancer />
         <WelcomeFaithSplash />
+        <IOSInstallHint />
         <CartProvider>
           {children}
           <BottomNavigation />
