@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { House, ShoppingCart, Star, User, UtensilsCrossed } from "lucide-react";
+import { House, ShoppingCart, User, UtensilsCrossed } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCart } from "../context/CartContext";
 
@@ -9,7 +9,6 @@ const links = [
   { href: "/", label: "Início", Icon: House },
   { href: "/cardapio", label: "Cardápio", Icon: UtensilsCrossed },
   { href: "/carrinho", label: "Carrinho", Icon: ShoppingCart },
-  { href: "/fidelidade", label: "Clube", Icon: Star },
   { href: "/perfil", label: "Perfil", Icon: User },
 ];
 
@@ -22,7 +21,7 @@ export default function BottomNavigation() {
 
   return (
     <nav aria-label="Navegação principal" className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_30px_rgba(0,0,0,.35)]">
-      <div className="mx-auto grid max-w-lg grid-cols-5 px-2 py-2">
+      <div className="mx-auto grid max-w-lg grid-cols-4 px-2 py-2">
         {links.map(({ href, label, Icon }) => {
           const ativo = href === "/" ? pathname === href : pathname.startsWith(href);
           return (
