@@ -1,0 +1,1 @@
+Forçar novo deploy da branch farmacia-demo com a versão atual: identidade vermelho/amarelo, menu Catálogo e Uso Contínuo.
