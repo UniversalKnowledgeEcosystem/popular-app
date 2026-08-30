@@ -1,202 +1,114 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
-  --popular-yellow: #facc15;
-  --popular-black: #09090b;
-  --popular-surface: #18181b;
-  --popular-white: #ffffff;
+  color-scheme: light;
+  --pharma-primary: #0b6bcb;
+  --pharma-primary-dark: #07559f;
+  --pharma-health: #07966f;
+  --pharma-health-soft: #eaf8f3;
+  --pharma-blue-soft: #eef7ff;
+  --pharma-bg: #f5f8fb;
+  --pharma-card: #ffffff;
+  --pharma-border: #dce7f0;
+  --pharma-text: #123047;
+  --pharma-muted: #63798b;
+  --pharma-danger: #d94242;
+  --pharma-warning: #a46608;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  color-scheme: dark;
-  background: var(--popular-black);
+  color-scheme: light;
+  background: var(--pharma-bg);
 }
 
 body {
   min-width: 320px;
   text-rendering: optimizeLegibility;
-  background: var(--popular-black);
-  color: var(--popular-white);
+  background: var(--pharma-bg);
+  color: var(--pharma-text);
 }
 
-button,
-a,
-input,
-select,
-textarea {
-  -webkit-tap-highlight-color: transparent;
-}
+button,a,input,select,textarea { -webkit-tap-highlight-color: transparent; }
+button,a { touch-action: manipulation; }
 
-button,
-a {
-  touch-action: manipulation;
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--popular-yellow);
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+  outline: 3px solid rgba(11,107,203,.25);
   outline-offset: 2px;
 }
 
-input,
-select,
-textarea {
-  font-size: 16px;
+input,select,textarea { font-size: 16px; }
+
+.pharma-card {
+  background: var(--pharma-card);
+  border: 1px solid var(--pharma-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(26,74,110,.055);
 }
 
-@keyframes popular-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
+.pharma-primary {
+  background: var(--pharma-primary);
+  color: #fff;
+}
+
+.pharma-health {
+  background: var(--pharma-health);
+  color: #fff;
+}
+
+.pharma-soft-blue { background: var(--pharma-blue-soft); }
+.pharma-soft-green { background: var(--pharma-health-soft); }
+
+.pharma-cross {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+}
+.pharma-cross::before,.pharma-cross::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  border-radius: 3px;
+  inset: 0;
+  margin: auto;
+}
+.pharma-cross::before { width: 12px; height: 34px; }
+.pharma-cross::after { width: 34px; height: 12px; }
+
+@keyframes pharma-shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
 }
 
 .popular-field-error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 1px rgba(239, 68, 68, .35);
-  animation: popular-shake .34s ease-in-out;
+  border-color: var(--pharma-danger) !important;
+  box-shadow: 0 0 0 2px rgba(217,66,66,.12);
+  animation: pharma-shake .32s ease-in-out;
 }
 
-/* Mantém a identidade Popular consistente entre navegadores e aparelhos. */
+/* Compatibilidade temporária com componentes herdados da base Popular. */
 .popular-primary {
-  background-color: var(--popular-yellow) !important;
-  color: #000000 !important;
+  background-color: var(--pharma-primary) !important;
+  color: #ffffff !important;
   forced-color-adjust: none;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-/* Cardápio compacto: mais produtos visíveis e navegação vertical rápida. */
-section[id^="categoria-"] > div:has(> article) {
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: visible !important;
-  gap: .55rem !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article {
-  width: 100% !important;
-  max-width: none !important;
-  min-height: 104px !important;
-  padding: .65rem !important;
-  border-radius: 1rem !important;
-  display: grid !important;
-  grid-template-columns: 74px minmax(0,1fr) 82px !important;
-  grid-template-rows: minmax(82px,auto) !important;
-  align-items: center !important;
-  gap: .7rem !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > div:nth-of-type(1) {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-  min-height: 74px !important;
-  height: 74px !important;
-  margin: 0 !important;
-  border-radius: .75rem !important;
-  overflow: hidden !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > div:nth-of-type(1) > div {
-  height: 74px !important;
-  min-height: 0 !important;
-  transform: scale(.62);
-  transform-origin: center;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > div:nth-of-type(2) {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-  min-width: 0 !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > div:nth-of-type(2) h3 {
-  font-size: .9rem !important;
-  line-height: 1.15rem !important;
-  padding-right: 0 !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > button:last-child {
-  grid-column: 3 !important;
-  grid-row: 1 !important;
-  margin-top: 0 !important;
-  width: 82px !important;
-  height: 38px !important;
-  font-size: .75rem !important;
-  border-radius: .7rem !important;
-}
-
-section[id^="categoria-"] > div:has(> article) > article > button[aria-label="Favoritar"] {
-  top: .35rem !important;
-  right: .35rem !important;
-  width: 28px !important;
-  height: 28px !important;
-  font-size: .85rem !important;
-}
-
-@media (max-width: 420px) {
-  section[id^="categoria-"] > div:has(> article) > article {
-    grid-template-columns: 66px minmax(0,1fr) 72px !important;
-    gap: .5rem !important;
-  }
-  section[id^="categoria-"] > div:has(> article) > article > div:nth-of-type(1) {
-    height: 66px !important;
-    min-height: 66px !important;
-  }
-  section[id^="categoria-"] > div:has(> article) > article > button:last-child {
-    width: 72px !important;
-    font-size: .7rem !important;
-  }
-}
-
-@media (max-width: 640px) {
-  main section:has(.grid.grid-cols-6.gap-1.mt-3) {
-    padding: 1rem;
-  }
-
-  main .grid.grid-cols-6.gap-1.mt-3 {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0.35rem;
-  }
-
-  main .grid.grid-cols-6.gap-1.mt-3 > div {
-    width: 2rem;
-    height: 2rem;
-    aspect-ratio: 1;
-    justify-self: center;
-    font-size: 0.625rem;
-  }
-}
-
 @media (max-width: 360px) {
-  main {
-    overflow-x: clip;
-  }
-
-  h1 {
-    overflow-wrap: anywhere;
-  }
+  main { overflow-x: clip; }
+  h1 { overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
+  html { scroll-behavior: auto; }
+  *,*::before,*::after {
+    animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: .01ms !important;
   }
 }
