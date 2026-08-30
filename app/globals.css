@@ -2,18 +2,20 @@
 
 :root {
   color-scheme: light;
-  --pharma-primary: #0b6bcb;
-  --pharma-primary-dark: #07559f;
-  --pharma-health: #07966f;
-  --pharma-health-soft: #eaf8f3;
-  --pharma-blue-soft: #eef7ff;
-  --pharma-bg: #f5f8fb;
+  --pharma-primary: #d71920;
+  --pharma-primary-dark: #b20e14;
+  --pharma-accent: #ffc928;
+  --pharma-accent-soft: #fff3c4;
+  --pharma-health: #d71920;
+  --pharma-health-soft: #ffe7e7;
+  --pharma-blue-soft: #fff9e9;
+  --pharma-bg: #fffaf2;
   --pharma-card: #ffffff;
-  --pharma-border: #dce7f0;
-  --pharma-text: #123047;
-  --pharma-muted: #63798b;
-  --pharma-danger: #d94242;
-  --pharma-warning: #a46608;
+  --pharma-border: #f1dedc;
+  --pharma-text: #331b1b;
+  --pharma-muted: #806666;
+  --pharma-danger: #b20e14;
+  --pharma-warning: #9b6500;
 }
 
 html {
@@ -34,7 +36,7 @@ button,a,input,select,textarea { -webkit-tap-highlight-color: transparent; }
 button,a { touch-action: manipulation; }
 
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
-  outline: 3px solid rgba(11,107,203,.25);
+  outline: 3px solid rgba(215,25,32,.22);
   outline-offset: 2px;
 }
 
@@ -44,7 +46,7 @@ input,select,textarea { font-size: 16px; }
   background: var(--pharma-card);
   border: 1px solid var(--pharma-border);
   border-radius: 1.25rem;
-  box-shadow: 0 8px 24px rgba(26,74,110,.055);
+  box-shadow: 0 8px 24px rgba(105,36,36,.055);
 }
 
 .pharma-primary {
@@ -52,12 +54,17 @@ input,select,textarea { font-size: 16px; }
   color: #fff;
 }
 
+.pharma-accent {
+  background: var(--pharma-accent);
+  color: #451000;
+}
+
 .pharma-health {
-  background: var(--pharma-health);
+  background: var(--pharma-primary);
   color: #fff;
 }
 
-.pharma-soft-blue { background: var(--pharma-blue-soft); }
+.pharma-soft-blue { background: var(--pharma-accent-soft); }
 .pharma-soft-green { background: var(--pharma-health-soft); }
 
 .pharma-cross {
@@ -86,7 +93,7 @@ input,select,textarea { font-size: 16px; }
 
 .popular-field-error {
   border-color: var(--pharma-danger) !important;
-  box-shadow: 0 0 0 2px rgba(217,66,66,.12);
+  box-shadow: 0 0 0 2px rgba(178,14,20,.12);
   animation: pharma-shake .32s ease-in-out;
 }
 
